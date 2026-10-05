@@ -31,7 +31,9 @@ const initialForm: FormState = {
 };
 
 const fieldClass =
-  "mt-2 h-12 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-sm font-medium text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-[#1769ff] focus:ring-4 focus:ring-blue-50";
+  "mt-1.5 h-11 w-full rounded-[11px] border border-slate-200 bg-white px-3.5 text-[13px] font-medium text-slate-950 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-[#1769ff] focus:ring-4 focus:ring-blue-50";
+
+const labelClass = "text-[12px] font-bold text-slate-700";
 
 export default function SignupForm() {
   const router = useRouter();
@@ -85,9 +87,9 @@ export default function SignupForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+    <form onSubmit={handleSubmit} className="space-y-4.5" noValidate>
       <div>
-        <label className="text-sm font-bold text-slate-700" htmlFor="workshopName">
+        <label className={labelClass} htmlFor="workshopName">
           Workshop name *
         </label>
         <input
@@ -101,9 +103,9 @@ export default function SignupForm() {
         />
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="text-sm font-bold text-slate-700" htmlFor="ownerName">
+          <label className={labelClass} htmlFor="ownerName">
             Owner name *
           </label>
           <input
@@ -117,13 +119,14 @@ export default function SignupForm() {
           />
         </div>
         <div>
-          <label className="text-sm font-bold text-slate-700" htmlFor="mobile">
+          <label className={labelClass} htmlFor="mobile">
             Mobile number *
           </label>
           <input
             id="mobile"
             className={fieldClass}
             placeholder="+91 98765 43210"
+            type="tel"
             inputMode="tel"
             autoComplete="tel"
             value={form.mobile}
@@ -134,7 +137,7 @@ export default function SignupForm() {
       </div>
 
       <div>
-        <label className="text-sm font-bold text-slate-700" htmlFor="email">
+        <label className={labelClass} htmlFor="email">
           Email address *
         </label>
         <input
@@ -149,9 +152,9 @@ export default function SignupForm() {
         />
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-3">
         <div>
-          <label className="text-sm font-bold text-slate-700" htmlFor="country">
+          <label className={labelClass} htmlFor="country">
             Country *
           </label>
           <input
@@ -164,7 +167,7 @@ export default function SignupForm() {
           />
         </div>
         <div>
-          <label className="text-sm font-bold text-slate-700" htmlFor="state">
+          <label className={labelClass} htmlFor="state">
             State *
           </label>
           <input
@@ -178,7 +181,7 @@ export default function SignupForm() {
           />
         </div>
         <div>
-          <label className="text-sm font-bold text-slate-700" htmlFor="city">
+          <label className={labelClass} htmlFor="city">
             City *
           </label>
           <input
@@ -193,9 +196,9 @@ export default function SignupForm() {
         </div>
       </div>
 
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="text-sm font-bold text-slate-700" htmlFor="password">
+          <label className={labelClass} htmlFor="password">
             Password *
           </label>
           <input
@@ -211,7 +214,7 @@ export default function SignupForm() {
           />
         </div>
         <div>
-          <label className="text-sm font-bold text-slate-700" htmlFor="confirmPassword">
+          <label className={labelClass} htmlFor="confirmPassword">
             Confirm password *
           </label>
           <input
@@ -228,9 +231,9 @@ export default function SignupForm() {
         </div>
       </div>
 
-      <label className="flex cursor-pointer items-start gap-3 text-sm leading-6 text-slate-600">
+      <label className="flex cursor-pointer items-start gap-3 rounded-[12px] bg-slate-50 px-3.5 py-3 text-[12px] leading-5 text-slate-600">
         <input
-          className="mt-1 h-4 w-4 accent-[#1769ff]"
+          className="mt-0.5 h-4 w-4 shrink-0 accent-[#1769ff]"
           type="checkbox"
           checked={form.terms}
           onChange={(e) => setField("terms", e.target.checked)}
@@ -242,7 +245,10 @@ export default function SignupForm() {
       </label>
 
       {error ? (
-        <div role="alert" className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
+        <div
+          role="alert"
+          className="rounded-[12px] border border-red-200 bg-red-50 px-3.5 py-3 text-[12px] font-semibold leading-5 text-red-700"
+        >
           {error}
         </div>
       ) : null}
@@ -250,15 +256,11 @@ export default function SignupForm() {
       <button
         type="submit"
         disabled={loading}
-        className="flex h-12 w-full items-center justify-center rounded-xl bg-[#1769ff] px-5 text-sm font-extrabold text-white transition hover:bg-[#0a4de0] disabled:cursor-not-allowed disabled:opacity-60"
+        className="focus-ring flex h-12 w-full items-center justify-center rounded-xl bg-[#1769ff] px-5 text-[13px] font-extrabold text-white transition hover:bg-[#0a4de0] disabled:cursor-not-allowed disabled:opacity-60"
       >
         {loading ? "Creating workshop..." : "Create workshop account"}
         {!loading ? <span className="ml-2">→</span> : null}
       </button>
-
-      <p className="text-center text-xs leading-5 text-slate-400">
-        No login link is shown on this public signup flow.
-      </p>
     </form>
   );
 }

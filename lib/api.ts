@@ -16,20 +16,10 @@ type SignupResponse = {
   [key: string]: unknown;
 };
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ?? "";
-const SIGNUP_ENDPOINT =
-  process.env.NEXT_PUBLIC_SIGNUP_ENDPOINT ?? "/api/auth/signup";
-
 export async function createWorkshopAccount(
   payload: WorkshopSignupPayload,
 ): Promise<SignupResponse> {
-  if (!API_BASE_URL) {
-    throw new Error(
-      "Signup API is not configured. Add NEXT_PUBLIC_API_URL to your environment.",
-    );
-  }
-
-  const response = await fetch(`${API_BASE_URL}${SIGNUP_ENDPOINT}`, {
+  const response = await fetch("/api/signup", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

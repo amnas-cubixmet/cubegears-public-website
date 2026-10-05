@@ -143,10 +143,12 @@ export default function Home() {
         <div className="page-shell flex h-16 items-center justify-between">
           <Logo />
 
-          <nav className="hidden items-center gap-7 text-[12px] font-semibold text-slate-600 md:flex">
-            <a href="#features" className="transition hover:text-[#1769ff]">Features</a>
-            <a href="#workflow" className="transition hover:text-[#1769ff]">How it works</a>
-            <a href="#workshops" className="transition hover:text-[#1769ff]">For workshops</a>
+          <nav className="hidden items-center gap-6 text-[12px] font-semibold text-slate-600 lg:flex">
+            <Link href="/features" className="transition hover:text-[#1769ff]">Features</Link>
+            <Link href="/how-it-works" className="transition hover:text-[#1769ff]">How it works</Link>
+            <Link href="/for-workshops" className="transition hover:text-[#1769ff]">For workshops</Link>
+            <Link href="/pricing" className="transition hover:text-[#1769ff]">Pricing</Link>
+            <Link href="/contact" className="transition hover:text-[#1769ff]">Contact</Link>
           </nav>
 
           <Link
@@ -156,6 +158,13 @@ export default function Home() {
             Sign up
           </Link>
         </div>
+        <nav className="page-shell flex gap-5 overflow-x-auto border-t border-slate-100 py-2.5 text-[10px] font-bold text-slate-500 lg:hidden">
+          <Link href="/features" className="shrink-0">Features</Link>
+          <Link href="/how-it-works" className="shrink-0">How it works</Link>
+          <Link href="/for-workshops" className="shrink-0">For workshops</Link>
+          <Link href="/pricing" className="shrink-0">Pricing</Link>
+          <Link href="/contact" className="shrink-0">Contact</Link>
+        </nav>
       </header>
 
       <section className="relative overflow-hidden bg-white">

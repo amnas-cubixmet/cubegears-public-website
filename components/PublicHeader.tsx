@@ -28,6 +28,13 @@ export function PublicHeader() {
           Sign up
         </Link>
       </div>
+      <nav className="page-shell flex gap-5 overflow-x-auto border-t border-slate-100 py-2.5 text-[10px] font-bold text-slate-500 lg:hidden">
+        <Link href="/features" className="shrink-0">Features</Link>
+        <Link href="/how-it-works" className="shrink-0">How it works</Link>
+        <Link href="/for-workshops" className="shrink-0">For workshops</Link>
+        <Link href="/pricing" className="shrink-0">Pricing</Link>
+        <Link href="/contact" className="shrink-0">Contact</Link>
+      </nav>
     </header>
   );
 }

@@ -17,48 +17,65 @@ const benefits = [
 
 export default function SignupPage() {
   return (
-    <main className="min-h-screen bg-[#f7f9fc] text-[#0b1220]">
+    <main className="min-h-screen bg-[#f6f8fb] text-[#0b1220]">
       <header className="border-b border-slate-200 bg-white">
-        <div className="page-shell flex h-[72px] items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#1769ff] text-sm font-black text-white">C</span>
-            <span className="text-[17px] font-black tracking-[-0.03em]">CUBIXGEAR</span>
+        <div className="page-shell flex h-16 items-center justify-between gap-4">
+          <Link href="/" className="flex min-w-0 items-center gap-2.5">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-[11px] bg-[#1769ff] text-sm font-black text-white">
+              C
+            </span>
+            <span className="truncate text-[16px] font-black tracking-[-0.035em]">
+              CUBIX<span className="text-[#1769ff]">GEAR</span>
+            </span>
           </Link>
-          <Link href="/" className="text-sm font-bold text-slate-500 transition hover:text-slate-950">
-            ← Back to website
+          <Link
+            href="/"
+            className="focus-ring shrink-0 rounded-lg px-2 py-2 text-[12px] font-bold text-slate-500 transition hover:bg-slate-50 hover:text-slate-950 sm:text-[13px]"
+          >
+            ← Back
           </Link>
         </div>
       </header>
 
-      <section className="page-shell grid gap-10 py-10 sm:py-14 lg:grid-cols-[.8fr_1.2fr] lg:gap-16 lg:py-20">
-        <aside className="self-start rounded-[28px] bg-[#07111f] p-7 text-white sm:p-9 lg:sticky lg:top-24">
-          <span className="inline-flex rounded-full bg-white/10 px-3 py-1.5 text-xs font-black uppercase tracking-[.15em] text-blue-200">
+      <section className="page-shell grid gap-6 py-7 sm:py-10 lg:grid-cols-[.78fr_1.22fr] lg:gap-10 lg:py-14">
+        <aside className="self-start overflow-hidden rounded-[24px] bg-[#07111f] p-6 text-white sm:p-8 lg:sticky lg:top-20">
+          <span className="inline-flex rounded-full bg-white/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[.15em] text-blue-200">
             New workshop
           </span>
-          <h1 className="mt-6 text-4xl font-black leading-[1.02] tracking-[-.045em] sm:text-5xl">
+
+          <h1 className="mt-5 text-[34px] font-black leading-[1.04] tracking-[-.045em] sm:text-[44px]">
             Set up your workshop on CubixGear.
           </h1>
-          <p className="mt-5 text-sm leading-7 text-slate-300">
-            Create the owner account and workshop profile. This signup is structured
-            for direct connection to the CubixGear backend.
+
+          <p className="mt-4 max-w-lg text-[14px] leading-7 text-slate-300">
+            Create your workshop profile and owner account to get started with a more organised service operation.
           </p>
 
-          <div className="mt-9 space-y-3">
+          <div className="mt-7 space-y-2.5">
             {benefits.map((item) => (
-              <div key={item} className="flex items-center gap-3 rounded-xl bg-white/[.06] px-4 py-3 text-sm font-semibold text-slate-200">
-                <span className="grid h-6 w-6 place-items-center rounded-full bg-[#1769ff] text-[11px] font-black text-white">✓</span>
+              <div
+                key={item}
+                className="flex items-center gap-3 rounded-[13px] border border-white/[.06] bg-white/[.05] px-3.5 py-3 text-[12px] font-semibold text-slate-200"
+              >
+                <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[#1769ff] text-[9px] font-black text-white">
+                  ✓
+                </span>
                 {item}
               </div>
             ))}
           </div>
         </aside>
 
-        <div className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_18px_60px_rgba(15,23,42,.06)] sm:p-9">
-          <div className="mb-8 border-b border-slate-100 pb-7">
-            <p className="text-xs font-black uppercase tracking-[.17em] text-[#1769ff]">Sign up</p>
-            <h2 className="mt-2 text-3xl font-black tracking-[-.04em]">Create your workshop account</h2>
-            <p className="mt-3 text-sm leading-6 text-slate-500">
-              Enter your workshop and owner details below.
+        <div className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-[0_16px_50px_rgba(15,23,42,.05)] sm:p-8 lg:p-9">
+          <div className="mb-7 border-b border-slate-100 pb-6">
+            <p className="text-[10px] font-black uppercase tracking-[.17em] text-[#1769ff]">
+              Sign up
+            </p>
+            <h2 className="mt-2 text-[28px] font-black leading-tight tracking-[-.04em] sm:text-[32px]">
+              Create your workshop account
+            </h2>
+            <p className="mt-2 text-[13px] leading-6 text-slate-500">
+              Enter the primary workshop and owner details.
             </p>
           </div>
 

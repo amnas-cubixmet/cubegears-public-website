@@ -13,7 +13,7 @@ type SignupRequest = {
 
 function getBackendUrl() {
   const baseUrl = process.env.BACKEND_API_URL?.trim().replace(/\/$/, "");
-  const endpoint = (process.env.BACKEND_SIGNUP_PATH || "/api/auth/signup/").trim();
+  const endpoint = (process.env.BACKEND_SIGNUP_PATH || "/auth/signup").trim();
 
   if (!baseUrl) {
     return null;

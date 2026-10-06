@@ -64,27 +64,3 @@ export async function createWorkshopAccount(
 
   return data;
 }
-
-
-export async function setupWorkshopPassword(payload: {
-  uid: string;
-  token: string;
-  password: string;
-}): Promise<{ message?: string }> {
-  const response = await fetch("/api/setup-password", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
-
-  const data = (await response.json().catch(() => ({}))) as SignupResponse;
-
-  if (!response.ok) {
-    throw new Error(getApiErrorMessage(data));
-  }
-
-  return data;
-}

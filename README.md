@@ -32,8 +32,8 @@ Open \`http://localhost:3000\`.
 Copy \`.env.example\` to \`.env.local\`:
 
 \`\`\`env
-BACKEND_API_URL=http://127.0.0.1:8000
-BACKEND_SIGNUP_PATH=/api/auth/signup/
+BACKEND_API_URL=http://127.0.0.1:8000/api/v1
+BACKEND_SIGNUP_PATH=/auth/signup
 \`\`\`
 
 The browser sends signup requests only to the Next.js route \`/api/signup\`.

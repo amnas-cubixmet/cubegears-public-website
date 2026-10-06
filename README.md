@@ -34,8 +34,6 @@ Copy \`.env.example\` to \`.env.local\`:
 \`\`\`env
 BACKEND_API_URL=http://127.0.0.1:8000/api/v1
 BACKEND_SIGNUP_PATH=/auth/signup
-BACKEND_SETUP_PASSWORD_PATH=/auth/setup-password
-NEXT_PUBLIC_COMPANY_PANEL_URL=http://localhost:5173
 \`\`\`
 
 The browser sends signup requests only to the Next.js route \`/api/signup\`.
@@ -73,8 +71,8 @@ Public signup does not collect a password.
 
 1. The owner submits workshop, contact and location details.
 2. Django creates the company, head-office branch, workshop-admin role and owner user.
-3. Django emails a secure link to `/setup-password?uid=...&token=...`.
-4. The public website sends the new password through `/api/setup-password` to Django.
+3. Django emails a secure Company Panel link to `http://localhost:5173/setup-password?uid=...&token=...` in local development.
+4. The Company Panel sends the new password to Django `/api/v1/auth/setup-password`.
 5. Django sets the password and marks the email as verified.
 6. The user can then sign in to the Company Panel.
 

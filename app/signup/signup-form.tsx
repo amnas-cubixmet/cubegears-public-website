@@ -88,6 +88,99 @@ export default function SignupForm() {
         />
       </div>
 
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label className={labelClass} htmlFor="ownerName">
+            Owner name *
+          </label>
+          <input
+            id="ownerName"
+            className={fieldClass}
+            placeholder="Full name"
+            autoComplete="name"
+            value={form.ownerName}
+            onChange={(e) => setField("ownerName", e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label className={labelClass} htmlFor="mobile">
+            Mobile number *
+          </label>
+          <input
+            id="mobile"
+            className={fieldClass}
+            placeholder="+91 98765 43210"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            value={form.mobile}
+            onChange={(e) => setField("mobile", e.target.value)}
+            required
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className={labelClass} htmlFor="email">
+          Email address *
+        </label>
+        <input
+          id="email"
+          className={fieldClass}
+          placeholder="owner@workshop.com"
+          type="email"
+          autoComplete="email"
+          value={form.email}
+          onChange={(e) => setField("email", e.target.value)}
+          required
+        />
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-3">
+        <div>
+          <label className={labelClass} htmlFor="country">
+            Country *
+          </label>
+          <input
+            id="country"
+            className={fieldClass}
+            autoComplete="country-name"
+            value={form.country}
+            onChange={(e) => setField("country", e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label className={labelClass} htmlFor="state">
+            State *
+          </label>
+          <input
+            id="state"
+            className={fieldClass}
+            placeholder="Kerala"
+            autoComplete="address-level1"
+            value={form.state}
+            onChange={(e) => setField("state", e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label className={labelClass} htmlFor="city">
+            City *
+          </label>
+          <input
+            id="city"
+            className={fieldClass}
+            placeholder="City"
+            autoComplete="address-level2"
+            value={form.city}
+            onChange={(e) => setField("city", e.target.value)}
+            required
+          />
+        </div>
+      </div>
+
       <div className="rounded-[12px] border border-blue-100 bg-blue-50 px-3.5 py-3 text-[12px] leading-5 text-blue-800">
         After signup, we&apos;ll email you a secure link to create your password.
       </div>

@@ -16,6 +16,35 @@ type SignupResponse = {
   [key: string]: unknown;
 };
 
+function getApiErrorMessage(data: SignupResponse) {
+  if (typeof data.message === "string" && data.message.trim()) {
+    return data.message;
+  }
+
+  if (typeof data.detail === "string" && data.detail.trim()) {
+    return data.detail;
+  }
+
+  for (const value of Object.values(data)) {
+    if (Array.isArray(value) && typeof value[0] === "string") {
+      return value[0];
+    }
+
+    if (value && typeof value === "object" && !Array.isArray(value)) {
+      for (const nested of Object.values(value as Record<string, unknown>)) {
+        if (Array.isArray(nested) && typeof nested[0] === "string") {
+          return nested[0];
+        }
+        if (typeof nested === "string" && nested.trim()) {
+          return nested;
+        }
+      }
+    }
+  }
+
+  return "Unable to create the workshop account. Please check your details.";
+}
+
 export async function createWorkshopAccount(
   payload: WorkshopSignupPayload,
 ): Promise<SignupResponse> {
@@ -31,11 +60,7 @@ export async function createWorkshopAccount(
   const data = (await response.json().catch(() => ({}))) as SignupResponse;
 
   if (!response.ok) {
-    const message =
-      typeof data.message === "string"
-        ? data.message
-        : "Unable to create the workshop account. Please check your details.";
-    throw new Error(message);
+    throw new Error(getApiErrorMessage(data));
   }
 
   return data;

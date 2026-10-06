@@ -29,13 +29,13 @@ export default function SignupSuccessPage() {
           </div>
 
           <p className="mt-7 text-[10px] font-black uppercase tracking-[.16em] text-[#1769ff]">
-            Account created
+            Check your email
           </p>
           <h1 className="mt-3 text-[30px] font-black tracking-[-.04em] text-[#0a1530] sm:text-[40px]">
-            Account Created Successfully!
+            Your workshop is almost ready
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-[13px] leading-6 text-slate-500">
-            Welcome to CubixGear. Your workshop account has been created successfully.
+            We sent a secure password setup link to your email. Open that email and create your password to activate access to the CubixGear dashboard.
           </p>
 
           <Link

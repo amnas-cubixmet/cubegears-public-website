@@ -8,7 +8,6 @@ type SignupRequest = {
   country?: string;
   state?: string;
   city?: string;
-  password?: string;
 };
 
 function getBackendUrl() {
@@ -39,7 +38,6 @@ export async function POST(request: Request) {
     payload.country,
     payload.state,
     payload.city,
-    payload.password,
   ];
 
   if (required.some((value) => !value || !value.trim())) {
@@ -69,8 +67,6 @@ export async function POST(request: Request) {
     country: payload.country!.trim(),
     state: payload.state!.trim(),
     city: payload.city!.trim(),
-    password: payload.password!,
-    password_confirm: payload.password!,
   };
 
   try {

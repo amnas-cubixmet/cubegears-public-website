@@ -12,8 +12,6 @@ type FormState = {
   country: string;
   state: string;
   city: string;
-  password: string;
-  confirmPassword: string;
   terms: boolean;
 };
 
@@ -25,8 +23,6 @@ const initialForm: FormState = {
   country: "India",
   state: "",
   city: "",
-  password: "",
-  confirmPassword: "",
   terms: false,
 };
 
@@ -49,16 +45,6 @@ export default function SignupForm() {
     event.preventDefault();
     setError("");
 
-    if (form.password.length < 8) {
-      setError("Password must contain at least 8 characters.");
-      return;
-    }
-
-    if (form.password !== form.confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-
     if (!form.terms) {
       setError("Please accept the Terms and Privacy Policy.");
       return;
@@ -75,7 +61,6 @@ export default function SignupForm() {
         country: form.country.trim(),
         state: form.state.trim(),
         city: form.city.trim(),
-        password: form.password,
       });
 
       router.push("/signup/success");
@@ -196,39 +181,8 @@ export default function SignupForm() {
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label className={labelClass} htmlFor="password">
-            Password *
-          </label>
-          <input
-            id="password"
-            className={fieldClass}
-            placeholder="Minimum 8 characters"
-            type="password"
-            autoComplete="new-password"
-            value={form.password}
-            onChange={(e) => setField("password", e.target.value)}
-            required
-            minLength={8}
-          />
-        </div>
-        <div>
-          <label className={labelClass} htmlFor="confirmPassword">
-            Confirm password *
-          </label>
-          <input
-            id="confirmPassword"
-            className={fieldClass}
-            placeholder="Repeat password"
-            type="password"
-            autoComplete="new-password"
-            value={form.confirmPassword}
-            onChange={(e) => setField("confirmPassword", e.target.value)}
-            required
-            minLength={8}
-          />
-        </div>
+      <div className="rounded-[12px] border border-blue-100 bg-blue-50 px-3.5 py-3 text-[12px] leading-5 text-blue-800">
+        After signup, we&apos;ll email you a secure link to create your password.
       </div>
 
       <label className="flex cursor-pointer items-start gap-3 rounded-[12px] bg-slate-50 px-3.5 py-3 text-[12px] leading-5 text-slate-600">

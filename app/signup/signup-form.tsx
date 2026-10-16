@@ -9,9 +9,6 @@ type FormState = {
   ownerName: string;
   mobile: string;
   email: string;
-  country: string;
-  state: string;
-  city: string;
   terms: boolean;
 };
 
@@ -20,9 +17,6 @@ const initialForm: FormState = {
   ownerName: "",
   mobile: "",
   email: "",
-  country: "India",
-  state: "",
-  city: "",
   terms: false,
 };
 
@@ -58,9 +52,6 @@ export default function SignupForm() {
         ownerName: form.ownerName.trim(),
         mobile: form.mobile.trim(),
         email: form.email.trim(),
-        country: form.country.trim(),
-        state: form.state.trim(),
-        city: form.city.trim(),
       });
 
       router.push("/signup/success");
@@ -135,50 +126,6 @@ export default function SignupForm() {
           onChange={(e) => setField("email", e.target.value)}
           required
         />
-      </div>
-
-      <div className="grid gap-4 sm:grid-cols-3">
-        <div>
-          <label className={labelClass} htmlFor="country">
-            Country *
-          </label>
-          <input
-            id="country"
-            className={fieldClass}
-            autoComplete="country-name"
-            value={form.country}
-            onChange={(e) => setField("country", e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label className={labelClass} htmlFor="state">
-            State *
-          </label>
-          <input
-            id="state"
-            className={fieldClass}
-            placeholder="Kerala"
-            autoComplete="address-level1"
-            value={form.state}
-            onChange={(e) => setField("state", e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label className={labelClass} htmlFor="city">
-            City *
-          </label>
-          <input
-            id="city"
-            className={fieldClass}
-            placeholder="City"
-            autoComplete="address-level2"
-            value={form.city}
-            onChange={(e) => setField("city", e.target.value)}
-            required
-          />
-        </div>
       </div>
 
       <div className="rounded-[12px] border border-blue-100 bg-blue-50 px-3.5 py-3 text-[12px] leading-5 text-blue-800">

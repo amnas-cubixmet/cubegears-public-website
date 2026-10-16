@@ -39,19 +39,14 @@ BACKEND_SIGNUP_PATH=/auth/signup
 The browser sends signup requests only to the Next.js route \`/api/signup\`.
 That server route forwards the request to the Django backend. The backend base URL is therefore not exposed as a \`NEXT_PUBLIC_*\` value.
 
-The proxy currently maps the public form to this backend JSON shape:
+The proxy maps the public form to this backend JSON shape:
 
 \`\`\`json
 {
   "workshop_name": "Example Auto Care",
   "owner_name": "Owner Name",
   "mobile": "+919876543210",
-  "email": "owner@example.com",
-  "country": "India",
-  "state": "Kerala",
-  "city": "Chalakudy",
-  "password": "password",
-  "password_confirm": "password"
+  "email": "owner@example.com"
 }
 \`\`\`
 
@@ -69,7 +64,7 @@ npm start
 
 Public signup does not collect a password.
 
-1. The owner submits workshop, contact and location details.
+1. The owner submits workshop and contact details.
 2. Django creates the company, head-office branch, workshop-admin role and owner user.
 3. Django emails a secure Company Panel link to `http://localhost:5173/setup-password?uid=...&token=...` in local development.
 4. The Company Panel sends the new password to Django `/api/v1/auth/setup-password`.

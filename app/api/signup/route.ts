@@ -5,9 +5,6 @@ type SignupRequest = {
   ownerName?: string;
   mobile?: string;
   email?: string;
-  country?: string;
-  state?: string;
-  city?: string;
 };
 
 function getBackendUrl() {
@@ -35,9 +32,6 @@ export async function POST(request: Request) {
     payload.ownerName,
     payload.mobile,
     payload.email,
-    payload.country,
-    payload.state,
-    payload.city,
   ];
 
   if (required.some((value) => !value || !value.trim())) {
@@ -64,9 +58,6 @@ export async function POST(request: Request) {
     owner_name: payload.ownerName!.trim(),
     mobile: payload.mobile!.trim(),
     email: payload.email!.trim(),
-    country: payload.country!.trim(),
-    state: payload.state!.trim(),
-    city: payload.city!.trim(),
   };
 
   try {

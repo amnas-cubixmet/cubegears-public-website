@@ -3,9 +3,6 @@ export type WorkshopSignupPayload = {
   ownerName: string;
   mobile: string;
   email: string;
-  country: string;
-  state: string;
-  city: string;
 };
 
 type SignupResponse = {

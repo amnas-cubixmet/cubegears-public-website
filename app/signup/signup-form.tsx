@@ -86,9 +86,6 @@ export default function SignupForm() {
         <label className={labelClass} htmlFor="email">Email address <span className="text-red-600">*</span></label>
         <input id="email" name="email" className={fieldClass} placeholder="owner@workshop.com" type="email" autoComplete="email" maxLength={254} value={form.email} onChange={(e) => setField("email", e.target.value)} required />
       </div>
-      <div className="rounded-xl border border-blue-100 bg-blue-50 px-4 py-4 text-[14px] leading-6 text-blue-950">
-        <strong>Next step:</strong> After successful signup, check your email for a secure password setup link.
-      </div>
       <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-4 text-[14px] leading-6 text-slate-700">
         <input className="mt-1 h-4 w-4 shrink-0 accent-blue-600" type="checkbox" checked={form.terms} onChange={(e) => setField("terms", e.target.checked)} required />
         <span>I confirm I am authorised to create this workshop account and can receive account setup email.</span>

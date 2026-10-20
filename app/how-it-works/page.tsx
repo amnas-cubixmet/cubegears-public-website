@@ -1,55 +1,62 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { PublicHeader } from "@/components/PublicHeader";
 import { PublicFooter } from "@/components/PublicFooter";
 
+export const metadata: Metadata = {
+  title: "How It Works",
+  description: "Follow the workshop service process from vehicle check-in through estimate, repair, invoicing and delivery.",
+};
+
 const steps = [
-  ["01", "Customer arrives", "Find or create the customer profile and select the vehicle."],
-  ["02", "Vehicle inspection", "Record complaints, inspection findings, photos and required work."],
-  ["03", "Estimate", "Prepare labour and parts estimate before starting the repair."],
-  ["04", "Approval", "Move approved work into the workshop queue."],
-  ["05", "Work in progress", "Assign technicians, update status and consume required parts."],
-  ["06", "Quality check", "Complete QC and make sure the vehicle is ready."],
-  ["07", "Invoice & payment", "Generate the invoice and record payment status."],
-  ["08", "Delivery", "Close the job and keep the complete service history for next time."],
+  ["01", "Check in the customer", "Create or find the customer and select the vehicle for the visit."],
+  ["02", "Inspect the vehicle", "Record the complaint, findings and the work needed."],
+  ["03", "Prepare the estimate", "Organise proposed parts and labour into an estimate."],
+  ["04", "Get approval", "Move approved work into the team's active job queue."],
+  ["05", "Complete the work", "Keep technicians and repair progress aligned."],
+  ["06", "Quality check", "Review the completed work before final delivery."],
+  ["07", "Invoice and payment", "Generate the final invoice and record payment details."],
+  ["08", "Deliver with history", "Close the job and keep its history for the next visit."],
 ];
 
 export default function HowItWorksPage() {
   return (
-    <main className="min-h-screen bg-white text-[#0b1220]">
+    <>
       <PublicHeader />
-
-      <section className="bg-[#f8fbff]">
-        <div className="page-shell py-16 text-center sm:py-20">
-          <span className="inline-flex rounded-full bg-blue-50 px-3 py-1.5 text-[10px] font-black uppercase tracking-[.14em] text-[#1769ff]">How it works</span>
-          <h1 className="mx-auto mt-4 max-w-4xl text-[40px] font-black leading-[1.03] tracking-[-.05em] sm:text-[58px]">
-            One workflow from arrival to delivery.
-          </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-7 text-slate-600">
-            Every step stays connected to the same customer, vehicle and job card so your team always has the right context.
-          </p>
-        </div>
-      </section>
-
-      <section className="page-shell py-16 sm:py-20">
-        <div className="mx-auto max-w-4xl">
-          {steps.map(([number, title, description], index) => (
-            <div key={number} className="grid gap-4 border-b border-slate-200 py-6 sm:grid-cols-[70px_220px_1fr] sm:items-center">
-              <div className="grid h-11 w-11 place-items-center rounded-full bg-[#1769ff] text-[11px] font-black text-white">{number}</div>
-              <h2 className="text-[18px] font-black tracking-[-.02em]">{title}</h2>
-              <p className="text-[13px] leading-6 text-slate-500">{description}</p>
-              {index === steps.length - 1 ? null : <span className="hidden" />}
+      <main id="main-content" className="bg-white">
+        <section className="relative overflow-hidden bg-[#0a1d3b] text-white">
+          <div className="pointer-events-none absolute -right-20 top-0 h-80 w-80 rounded-full bg-blue-500/20 blur-3xl" />
+          <div className="page-shell relative py-18 sm:py-24">
+            <p className="eyebrow !text-blue-300">THE SERVICE JOURNEY</p>
+            <h1 className="mt-5 max-w-4xl text-[clamp(40px,5vw,64px)] font-extrabold leading-[1.1] tracking-[-.055em]">From arrival to delivery, every step connected.</h1>
+            <p className="mt-6 max-w-2xl text-[17px] leading-8 text-slate-300">A clear workflow helps the front desk and workshop floor work from the same information.</p>
+          </div>
+        </section>
+        <section className="section-pad bg-[#f7f9fd]">
+          <div className="page-shell">
+            <div className="max-w-2xl">
+              <p className="eyebrow">THE WORKFLOW</p>
+              <h2 className="section-title mt-4">Eight steps. One workspace.</h2>
             </div>
-          ))}
-        </div>
-
-        <div className="mt-12 text-center">
-          <Link href="/signup" className="inline-flex h-12 items-center justify-center rounded-xl bg-[#1769ff] px-6 text-[13px] font-extrabold text-white">
-            Start with CubixGear →
-          </Link>
-        </div>
-      </section>
-
+            <ol className="mt-10 grid gap-4 md:grid-cols-2">
+              {steps.map(([number, title, description]) => (
+                <li key={number} className="surface-card surface-card-hover flex gap-5 p-6 sm:p-7">
+                  <span aria-hidden="true" className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-blue-50 text-lg font-extrabold text-blue-700">{number}</span>
+                  <div>
+                    <h3 className="text-xl font-extrabold tracking-[-.025em] text-slate-900">{title}</h3>
+                    <p className="mt-3 text-[15px] leading-7 text-slate-600">{description}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            <div className="mt-11 flex flex-col items-start justify-between gap-6 rounded-[24px] bg-[#eaf2ff] p-7 sm:flex-row sm:items-center sm:p-9">
+              <div><h2 className="text-[25px] font-extrabold tracking-[-.04em] text-slate-950">Ready to organise your workshop?</h2><p className="mt-2 text-[15px] leading-7 text-slate-600">Create your CubeGears workspace to get started.</p></div>
+              <Link href="/signup" className="button-primary focus-ring inline-flex">Create workshop account ↗</Link>
+            </div>
+          </div>
+        </section>
+      </main>
       <PublicFooter />
-    </main>
+    </>
   );
 }

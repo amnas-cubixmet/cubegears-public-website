@@ -1,52 +1,60 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { PublicHeader } from "@/components/PublicHeader";
 import { PublicFooter } from "@/components/PublicFooter";
 
-const plans = [
-  ["Starter", "For small workshops moving from paper or spreadsheets.", ["Customers & vehicles", "Job cards", "Services", "Basic invoices"]],
-  ["Growth", "For active workshops that need connected daily operations.", ["Everything in Starter", "Inventory & stock", "Payments & expenses", "Staff & attendance"]],
-  ["Multi-Branch", "For larger businesses managing multiple workshop locations.", ["Everything in Growth", "Branch operations", "Advanced reports", "Central management"]],
+export const metadata: Metadata = {
+  title: "Feature Credits & Billing",
+  description: "Understand CubeGears flexible feature credits, workshop modules and storage billing.",
+};
+
+const billing = [
+  { number: "01", title: "Core workspace", note: "Included essentials", description: "Start with the dashboard, staff management and SaaS account tools. Access still follows your team's permissions.", items: ["Dashboard", "Staff management", "SaaS account"] },
+  { number: "02", title: "Optional features", note: "Credit-based usage", description: "Activate workshop modules as needed. Credit rates and active-user rules are controlled by the platform billing configuration.", items: ["Feature activation", "Active-user usage", "Configured credit rates"] },
+  { number: "03", title: "Storage & settlement", note: "Usage tracked separately", description: "Storage allowances and usage charges follow the platform settings. Review charge details in your workspace.", items: ["Storage allowance", "Usage records", "Billing calendar"] },
 ];
 
 export default function PricingPage() {
   return (
-    <main className="min-h-screen bg-[#f8fafc] text-[#0b1220]">
+    <>
       <PublicHeader />
-
-      <section className="border-b border-slate-200 bg-white">
-        <div className="page-shell py-16 text-center sm:py-20">
-          <span className="inline-flex rounded-full bg-blue-50 px-3 py-1.5 text-[10px] font-black uppercase tracking-[.14em] text-[#1769ff]">Pricing</span>
-          <h1 className="mx-auto mt-4 max-w-3xl text-[40px] font-black leading-[1.03] tracking-[-.05em] sm:text-[58px]">
-            Plans that can grow with your workshop.
-          </h1>
-          <p className="mx-auto mt-5 max-w-xl text-[15px] leading-7 text-slate-600">
-            Final subscription pricing can be connected to your billing backend when plans are confirmed.
-          </p>
-        </div>
-      </section>
-
-      <section className="page-shell py-16 sm:py-20">
-        <div className="grid gap-4 lg:grid-cols-3">
-          {plans.map(([name, description, items], index) => (
-            <article key={name as string} className={"rounded-[22px] border bg-white p-6 sm:p-7 " + (index === 1 ? "border-blue-300 shadow-[0_18px_50px_rgba(23,105,255,.09)]" : "border-slate-200")}>
-              {index === 1 ? <span className="rounded-full bg-blue-50 px-3 py-1 text-[9px] font-black uppercase tracking-[.12em] text-[#1769ff]">Popular</span> : null}
-              <h2 className="mt-4 text-[24px] font-black tracking-[-.03em]">{name as string}</h2>
-              <p className="mt-3 min-h-12 text-[13px] leading-6 text-slate-500">{description as string}</p>
-              <p className="mt-6 text-[26px] font-black tracking-[-.035em] text-[#1769ff]">Pricing on request</p>
-              <div className="mt-6 space-y-3">
-                {(items as string[]).map((item) => (
-                  <p key={item} className="text-[12px] font-semibold text-slate-600">✓ {item}</p>
-                ))}
-              </div>
-              <Link href="/signup" className={"mt-7 inline-flex h-11 w-full items-center justify-center rounded-xl text-[12px] font-extrabold " + (index === 1 ? "bg-[#1769ff] text-white" : "border border-slate-200 text-slate-800")}>
-                Create workshop account
-              </Link>
-            </article>
-          ))}
-        </div>
-      </section>
-
+      <main id="main-content" className="bg-[#f7f9fd]">
+        <section className="relative overflow-hidden border-b border-slate-200 bg-white">
+          <div className="soft-grid pointer-events-none absolute inset-0" />
+          <div className="page-shell relative py-18 text-center sm:py-24">
+            <p className="eyebrow justify-center">FLEXIBLE FEATURE CREDITS</p>
+            <h1 className="mx-auto mt-5 max-w-4xl text-[clamp(40px,5vw,64px)] font-extrabold leading-[1.09] tracking-[-.06em] text-[#0b1d37]">A workshop setup that fits your workflow.</h1>
+            <p className="section-copy mx-auto mt-6 max-w-2xl">CubeGears uses configurable feature credits rather than the fixed Starter and Growth subscriptions previously shown here.</p>
+          </div>
+        </section>
+        <section className="section-pad">
+          <div className="page-shell">
+            <div className="grid gap-5 lg:grid-cols-3">
+              {billing.map((item, index) => (
+                <article key={item.title} className={"surface-card flex flex-col p-7 sm:p-8 " + (index === 1 ? "ring-2 ring-blue-300" : "")}>
+                  <p className="text-[12px] font-extrabold tracking-[.12em] text-blue-600">{item.number} / {item.note.toUpperCase()}</p>
+                  <h2 className="mt-6 text-[27px] font-extrabold tracking-[-.045em] text-slate-900">{item.title}</h2>
+                  <p className="mt-4 min-h-[115px] text-[15px] leading-7 text-slate-600">{item.description}</p>
+                  <div className="mt-4 flex-1 border-t border-slate-100 pt-6">
+                    {item.items.map((detail) => <p key={detail} className="mb-3 flex gap-3 text-[14px] font-semibold text-slate-700"><span className="text-blue-600" aria-hidden="true">✓</span>{detail}</p>)}
+                  </div>
+                  <Link href="/signup" className={index === 1 ? "button-primary focus-ring mt-6 inline-flex" : "button-secondary focus-ring mt-6"}>Create workshop account ↗</Link>
+                </article>
+              ))}
+            </div>
+            <div className="mt-9 rounded-[20px] border border-blue-100 bg-blue-50 px-6 py-5 text-[14px] leading-7 text-blue-950">
+              <strong>About pricing:</strong> Live credit rates, minimum credit rules, storage pricing and billing dates are configured by the SaaS administrator. No fixed prices are published on this page. Review the current applicable charges in the product before activating paid tools.
+            </div>
+          </div>
+        </section>
+        <section className="border-t border-slate-200 bg-white py-16">
+          <div className="page-shell flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+            <div><h2 className="section-title">Explore CubeGears features.</h2><p className="section-copy mt-3">See the tools you can add to your workshop workflow.</p></div>
+            <Link href="/features" className="button-primary focus-ring inline-flex">Explore features ↗</Link>
+          </div>
+        </section>
+      </main>
       <PublicFooter />
-    </main>
+    </>
   );
 }

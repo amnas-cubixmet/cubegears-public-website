@@ -1,58 +1,60 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { PublicHeader } from "@/components/PublicHeader";
 import { PublicFooter } from "@/components/PublicFooter";
 
+export const metadata: Metadata = {
+  title: "Workshop Features",
+  description: "Explore customer management, job cards, inventory, invoicing, staff and reporting tools for workshops.",
+};
+
 const groups = [
-  ["Customers & Vehicles", "Keep customer profiles, vehicles, service history, outstanding balances and reminders together.", ["Customer CRUD", "Multiple vehicles", "Service history", "Outstanding balance"]],
-  ["Services & Job Cards", "Run every service job through a clear operational workflow from inspection to delivery.", ["Complaints", "Inspection", "Estimate", "Work progress", "QC", "Photos"]],
-  ["Stock & Inventory", "Control parts and consumables with movement history, purchase workflows and job-card deduction.", ["SKU & barcode", "Suppliers", "Stock movement", "Low stock", "Purchase orders"]],
-  ["Invoices & Billing", "Create professional estimates and invoices with taxes, labour, parts and payment records.", ["Estimates", "Invoices", "GST", "HSN/SAC", "Payments", "Expenses"]],
-  ["Staff & Attendance", "Manage employees, teams, shifts, skills, documents, leave and overtime.", ["Employees", "Roles", "Shifts", "Leave", "Overtime", "Attendance rules"]],
-  ["Payroll & Reports", "Connect attendance with payroll and see clear business performance reports.", ["Salary setup", "Incentives", "Payslips", "Sales reports", "Stock reports"]],
+  { number: "01", title: "Customers & vehicles", desc: "Keep records and service history together, and find the right information when a vehicle returns.", items: ["Customer records", "Vehicle profiles", "Service history", "Balances"] },
+  { number: "02", title: "Service & job cards", desc: "Move each workshop job through inspection, estimates, approvals, work, quality checks and delivery.", items: ["Job cards", "Inspections", "Estimates", "Work status", "Quality checks"] },
+  { number: "03", title: "Stock & inventory", desc: "Organise parts and consumables with movements and clearer day-to-day stock visibility.", items: ["Parts catalogue", "Stock movements", "Suppliers", "Low-stock tracking"] },
+  { number: "04", title: "Invoices & expenses", desc: "Connect labour and parts estimates with invoices, payments and operating expenses.", items: ["Estimates", "Invoices", "Payment records", "Expenses"] },
+  { number: "05", title: "Staff & attendance", desc: "Bring team information, roles, shifts and attendance into the same workshop workspace.", items: ["Staff", "Roles", "Attendance", "Leave", "Shifts"] },
+  { number: "06", title: "Reports & visibility", desc: "See how jobs, stock and operations are moving without switching between disconnected records.", items: ["Job overview", "Stock reports", "Business insights", "Team activity"] },
 ];
 
 export default function FeaturesPage() {
   return (
-    <main className="min-h-screen bg-[#f8fafc] text-[#0b1220]">
+    <>
       <PublicHeader />
-
-      <section className="border-b border-slate-200 bg-white">
-        <div className="page-shell py-16 text-center sm:py-20">
-          <span className="inline-flex rounded-full bg-blue-50 px-3 py-1.5 text-[10px] font-black uppercase tracking-[.14em] text-[#1769ff]">Features</span>
-          <h1 className="mx-auto mt-4 max-w-4xl text-[40px] font-black leading-[1.03] tracking-[-.05em] sm:text-[58px]">
-            Everything your workshop needs, connected.
-          </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-7 text-slate-600">
-            CubixGear brings the front desk, workshop floor, inventory, billing and staff operations into one system.
-          </p>
-        </div>
-      </section>
-
-      <section className="page-shell py-16 sm:py-20">
-        <div className="grid gap-4 lg:grid-cols-2">
-          {groups.map(([title, description, items]) => (
-            <article key={title as string} className="rounded-[22px] border border-slate-200 bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,.035)] sm:p-7">
-              <div className="grid h-10 w-10 place-items-center rounded-xl bg-blue-50 text-sm font-black text-[#1769ff]">CG</div>
-              <h2 className="mt-5 text-[22px] font-black tracking-[-.03em]">{title as string}</h2>
-              <p className="mt-3 text-[13px] leading-6 text-slate-500">{description as string}</p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {(items as string[]).map((item) => (
-                  <span key={item} className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-[10px] font-bold text-slate-600">{item}</span>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
-
-        <div className="mt-12 rounded-[24px] bg-[#0b1731] px-6 py-10 text-center text-white sm:px-10">
-          <h2 className="text-[30px] font-black tracking-[-.04em] sm:text-[40px]">Ready to set up your workshop?</h2>
-          <Link href="/signup" className="mt-6 inline-flex h-12 items-center justify-center rounded-xl bg-[#1769ff] px-6 text-[13px] font-extrabold text-white">
-            Create Workshop Account →
-          </Link>
-        </div>
-      </section>
-
+      <main id="main-content" className="bg-[#f7f9fd]">
+        <section className="relative overflow-hidden border-b border-slate-200 bg-white">
+          <div className="soft-grid pointer-events-none absolute inset-0" />
+          <div className="page-shell relative py-18 text-center sm:py-24">
+            <p className="eyebrow justify-center">BUILT FOR REAL WORKSHOP WORK</p>
+            <h1 className="mx-auto mt-5 max-w-4xl text-[clamp(40px,5vw,64px)] font-extrabold leading-[1.09] tracking-[-.06em] text-[#0b1d37]">Connected tools for every part of your day.</h1>
+            <p className="section-copy mx-auto mt-6 max-w-2xl">From front desk to workshop floor, CubeGears keeps your day-to-day operations in one place.</p>
+          </div>
+        </section>
+        <section className="section-pad">
+          <div className="page-shell grid gap-5 md:grid-cols-2">
+            {groups.map((group) => (
+              <article key={group.title} className="surface-card surface-card-hover p-7 sm:p-9">
+                <div className="flex items-center justify-between">
+                  <span className="grid h-12 w-12 place-items-center rounded-2xl bg-blue-50 text-lg font-extrabold text-blue-700">{group.number}</span>
+                  <span className="h-px w-20 bg-blue-100" />
+                </div>
+                <h2 className="mt-7 text-[24px] font-extrabold tracking-[-.04em] text-slate-900">{group.title}</h2>
+                <p className="mt-4 text-[15px] leading-8 text-slate-600">{group.desc}</p>
+                <div className="mt-7 flex flex-wrap gap-2">
+                  {group.items.map((item) => <span key={item} className="rounded-full border border-blue-100 bg-[#f3f7ff] px-3 py-2 text-[13px] font-semibold text-slate-700">{item}</span>)}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+        <section className="border-t border-slate-200 bg-white py-16">
+          <div className="page-shell flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+            <div><h2 className="section-title">Choose your workshop tools.</h2><p className="section-copy mt-3">Explore credit-based modules that fit your workflow.</p></div>
+            <Link href="/pricing" className="button-primary focus-ring inline-flex">How pricing works ↗</Link>
+          </div>
+        </section>
+      </main>
       <PublicFooter />
-    </main>
+    </>
   );
 }

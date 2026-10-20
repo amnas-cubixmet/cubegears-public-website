@@ -23,7 +23,7 @@ export default function ContactPage() {
       <main id="main-content" className="bg-[#f7f9fd]">
         <section className="page-shell grid gap-12 py-18 sm:py-24 lg:grid-cols-[.95fr_1.05fr] lg:items-center">
           <div>
-            <p className="eyebrow">LET'S GET YOUR WORKSHOP READY</p>
+            <p className="eyebrow">LET&apos;S GET YOUR WORKSHOP READY</p>
             <h1 className="mt-5 text-[clamp(40px,5vw,64px)] font-extrabold leading-[1.09] tracking-[-.06em] text-[#0b1d37]">A better way to run your workshop starts here.</h1>
             <p className="section-copy mt-6 max-w-xl">Find your next step, explore what CubeGears can do, or begin creating your workshop account.</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">

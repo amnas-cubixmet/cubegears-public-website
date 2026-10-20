@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import type { ReactNode } from "react";
+import { RouteScrollManager } from "@/components/RouteScrollManager";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={geistSans.variable + " " + geistMono.variable}>
       <body>
+        <RouteScrollManager />
         <a href="#main-content" className="skip-link">Skip to content</a>
         {children}
       </body>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Brand } from "./Brand";
 
 const productLinks = [
+  { href: "/", label: "Home" },
   { href: "/features", label: "Features" },
   { href: "/how-it-works", label: "How it works" },
   { href: "/pricing", label: "Pricing & credits" },
@@ -25,13 +26,13 @@ export function PublicFooter() {
         <nav aria-label="Product footer links">
           <h2 className="mb-4 text-sm font-bold text-white">Explore</h2>
           <div className="flex flex-col gap-3">
-            {productLinks.map(({ href, label }) => <Link key={href} href={href} className="footer-link focus-ring">{label}</Link>)}
+            {productLinks.map(({ href, label }) => <Link key={href} href={href} scroll className="footer-link focus-ring">{label}</Link>)}
           </div>
         </nav>
         <nav aria-label="Company footer links">
           <h2 className="mb-4 text-sm font-bold text-white">Get started</h2>
           <div className="flex flex-col gap-3">
-            {companyLinks.map(({ href, label }) => <Link key={href} href={href} className="footer-link focus-ring">{label}</Link>)}
+            {companyLinks.map(({ href, label }) => <Link key={href} href={href} scroll className="footer-link focus-ring">{label}</Link>)}
           </div>
         </nav>
       </div>

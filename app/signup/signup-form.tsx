@@ -21,9 +21,8 @@ const initialForm: FormState = {
 };
 
 const fieldClass =
-  "mt-1.5 h-11 w-full rounded-[11px] border border-slate-200 bg-white px-3.5 text-[13px] font-medium text-slate-950 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-[#1769ff] focus:ring-4 focus:ring-blue-50";
-
-const labelClass = "text-[12px] font-bold text-slate-700";
+  "mt-2 h-12 w-full rounded-xl border border-slate-300 bg-white px-4 text-[16px] text-slate-950 outline-none transition placeholder:text-slate-400 hover:border-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-100";
+const labelClass = "text-[14px] font-bold text-slate-800";
 
 export default function SignupForm() {
   const router = useRouter();
@@ -33,19 +32,25 @@ export default function SignupForm() {
 
   function setField<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((current) => ({ ...current, [key]: value }));
+    setError("");
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (loading) return;
     setError("");
 
+    const mobile = form.mobile.replace(/[\s()-]/g, "");
+    if (!/^\+?\d{10,15}$/.test(mobile)) {
+      setError("Enter a valid mobile number (10–15 digits).");
+      return;
+    }
     if (!form.terms) {
-      setError("Please accept the Terms and Privacy Policy.");
+      setError("Please confirm you are authorised to register this workshop.");
       return;
     }
 
     setLoading(true);
-
     try {
       await createWorkshopAccount({
         workshopName: form.workshopName.trim(),
@@ -53,114 +58,45 @@ export default function SignupForm() {
         mobile: form.mobile.trim(),
         email: form.email.trim(),
       });
-
       router.push("/signup/success");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4.5" noValidate>
+    <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <label className={labelClass} htmlFor="workshopName">
-          Workshop name *
-        </label>
-        <input
-          id="workshopName"
-          className={fieldClass}
-          placeholder="Example Auto Care"
-          autoComplete="organization"
-          value={form.workshopName}
-          onChange={(e) => setField("workshopName", e.target.value)}
-          required
-        />
+        <label className={labelClass} htmlFor="workshopName">Workshop name <span className="text-red-600">*</span></label>
+        <input id="workshopName" name="workshopName" className={fieldClass} placeholder="Example Auto Care" autoComplete="organization" maxLength={150} minLength={2} value={form.workshopName} onChange={(e) => setField("workshopName", e.target.value)} required />
       </div>
-
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-6 sm:grid-cols-2">
         <div>
-          <label className={labelClass} htmlFor="ownerName">
-            Owner name *
-          </label>
-          <input
-            id="ownerName"
-            className={fieldClass}
-            placeholder="Full name"
-            autoComplete="name"
-            value={form.ownerName}
-            onChange={(e) => setField("ownerName", e.target.value)}
-            required
-          />
+          <label className={labelClass} htmlFor="ownerName">Owner name <span className="text-red-600">*</span></label>
+          <input id="ownerName" name="ownerName" className={fieldClass} placeholder="Full name" autoComplete="name" maxLength={120} minLength={2} value={form.ownerName} onChange={(e) => setField("ownerName", e.target.value)} required />
         </div>
         <div>
-          <label className={labelClass} htmlFor="mobile">
-            Mobile number *
-          </label>
-          <input
-            id="mobile"
-            className={fieldClass}
-            placeholder="+91 98765 43210"
-            type="tel"
-            inputMode="tel"
-            autoComplete="tel"
-            value={form.mobile}
-            onChange={(e) => setField("mobile", e.target.value)}
-            required
-          />
+          <label className={labelClass} htmlFor="mobile">Mobile number <span className="text-red-600">*</span></label>
+          <input id="mobile" name="mobile" className={fieldClass} placeholder="+91 98765 43210" type="tel" inputMode="tel" autoComplete="tel" maxLength={22} value={form.mobile} onChange={(e) => setField("mobile", e.target.value)} required />
         </div>
       </div>
-
       <div>
-        <label className={labelClass} htmlFor="email">
-          Email address *
-        </label>
-        <input
-          id="email"
-          className={fieldClass}
-          placeholder="owner@workshop.com"
-          type="email"
-          autoComplete="email"
-          value={form.email}
-          onChange={(e) => setField("email", e.target.value)}
-          required
-        />
+        <label className={labelClass} htmlFor="email">Email address <span className="text-red-600">*</span></label>
+        <input id="email" name="email" className={fieldClass} placeholder="owner@workshop.com" type="email" autoComplete="email" maxLength={254} value={form.email} onChange={(e) => setField("email", e.target.value)} required />
       </div>
-
-      <div className="rounded-[12px] border border-blue-100 bg-blue-50 px-3.5 py-3 text-[12px] leading-5 text-blue-800">
-        After signup, we&apos;ll email you a secure link to create your password.
+      <div className="rounded-xl border border-blue-100 bg-blue-50 px-4 py-4 text-[14px] leading-6 text-blue-950">
+        <strong>Next step:</strong> After successful signup, check your email for a secure password setup link.
       </div>
-
-      <label className="flex cursor-pointer items-start gap-3 rounded-[12px] bg-slate-50 px-3.5 py-3 text-[12px] leading-5 text-slate-600">
-        <input
-          className="mt-0.5 h-4 w-4 shrink-0 accent-[#1769ff]"
-          type="checkbox"
-          checked={form.terms}
-          onChange={(e) => setField("terms", e.target.checked)}
-        />
-        <span>
-          I agree to the <span className="font-bold text-slate-900">Terms</span> and{" "}
-          <span className="font-bold text-slate-900">Privacy Policy</span>.
-        </span>
+      <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-4 text-[14px] leading-6 text-slate-700">
+        <input className="mt-1 h-4 w-4 shrink-0 accent-blue-600" type="checkbox" checked={form.terms} onChange={(e) => setField("terms", e.target.checked)} required />
+        <span>I confirm I am authorised to create this workshop account and can receive account setup email.</span>
       </label>
-
-      {error ? (
-        <div
-          role="alert"
-          className="rounded-[12px] border border-red-200 bg-red-50 px-3.5 py-3 text-[12px] font-semibold leading-5 text-red-700"
-        >
-          {error}
-        </div>
-      ) : null}
-
-      <button
-        type="submit"
-        disabled={loading}
-        className="focus-ring flex h-12 w-full items-center justify-center rounded-xl bg-[#1769ff] px-5 text-[13px] font-extrabold text-white transition hover:bg-[#0a4de0] disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        {loading ? "Creating workshop..." : "Create workshop account"}
-        {!loading ? <span className="ml-2">→</span> : null}
+      {error ? <div id="signup-error" role="alert" aria-live="assertive" className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-[14px] font-semibold leading-6 text-red-800">{error}</div> : null}
+      <button type="submit" disabled={loading} aria-describedby={error ? "signup-error" : undefined} className="button-primary focus-ring flex w-full !text-[16px] disabled:cursor-not-allowed disabled:opacity-60">
+        {loading ? "Creating your workshop…" : "Create workshop account"}
+        {!loading && <span aria-hidden="true">↗</span>}
       </button>
     </form>
   );

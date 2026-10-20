@@ -58,8 +58,8 @@ export function PublicHeader() {
   return (
     <header className="site-header">
       <div className="page-shell flex h-[76px] items-center justify-between gap-3 lg:gap-5">
-        <div onClick={closeMenu} className="shrink-0">
-          <Brand />
+        <div className="shrink-0">
+          <Brand onNavigate={closeMenu} />
         </div>
 
         <nav aria-label="Primary navigation" className="hidden min-w-0 items-center justify-center gap-0.5 xl:flex">

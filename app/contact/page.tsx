@@ -1,60 +1,57 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { PublicHeader } from "@/components/PublicHeader";
 import { PublicFooter } from "@/components/PublicFooter";
 
+export const metadata: Metadata = {
+  title: "Contact & Onboarding",
+  description: "Learn how to get started with CubeGears and choose the right workshop onboarding path.",
+};
+
 const topics = [
-  ["Sales", "Questions about using CubixGear for your workshop."],
-  ["Product", "Questions about modules, workflow and workshop features."],
-  ["Onboarding", "Help planning workshop setup and account structure."],
-  ["Partnerships", "For multi-branch and business partnership discussions."],
+  { title: "New workshop setup", description: "Create a company workspace and begin the owner onboarding flow." },
+  { title: "Product questions", description: "Explore feature modules, job workflows and workshop operations." },
+  { title: "Billing questions", description: "Learn how feature credits, usage and settlement are configured." },
+  { title: "Growing teams", description: "See how roles, staff and branches can fit into your operations." },
 ];
 
 export default function ContactPage() {
+  const contactEmail = process.env.CONTACT_EMAIL?.trim();
   return (
-    <main className="min-h-screen bg-[#f8fafc] text-[#0b1220]">
+    <>
       <PublicHeader />
-
-      <section className="page-shell grid gap-10 py-16 sm:py-20 lg:grid-cols-[.85fr_1.15fr]">
-        <div>
-          <span className="inline-flex rounded-full bg-blue-50 px-3 py-1.5 text-[10px] font-black uppercase tracking-[.14em] text-[#1769ff]">Contact</span>
-          <h1 className="mt-4 max-w-xl text-[40px] font-black leading-[1.03] tracking-[-.05em] sm:text-[56px]">
-            Talk to us about your workshop.
-          </h1>
-          <p className="mt-5 max-w-lg text-[15px] leading-7 text-slate-600">
-            Choose the area you need help with. Contact delivery can be connected to your backend or CRM later.
-          </p>
-
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-            {topics.map(([title, text]) => (
-              <div key={title} className="rounded-[16px] border border-slate-200 bg-white p-4">
-                <h2 className="text-[13px] font-black">{title}</h2>
-                <p className="mt-1 text-[11px] leading-5 text-slate-500">{text}</p>
-              </div>
-            ))}
+      <main id="main-content" className="bg-[#f7f9fd]">
+        <section className="page-shell grid gap-12 py-18 sm:py-24 lg:grid-cols-[.95fr_1.05fr] lg:items-center">
+          <div>
+            <p className="eyebrow">LET&apos;S GET YOUR WORKSHOP READY</p>
+            <h1 className="mt-5 text-[clamp(40px,5vw,64px)] font-extrabold leading-[1.09] tracking-[-.06em] text-[#0b1d37]">A better way to run your workshop starts here.</h1>
+            <p className="section-copy mt-6 max-w-xl">Find your next step, explore what CubeGears can do, or begin creating your workshop account.</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link href="/signup" className="button-primary focus-ring inline-flex">Create workshop account ↗</Link>
+              {contactEmail ? <a className="button-secondary focus-ring" href={"mailto:" + contactEmail}>Email our team →</a> : <Link className="button-secondary focus-ring" href="/how-it-works">See how it works →</Link>}
+            </div>
+            {contactEmail ? <p className="mt-4 break-all text-[14px] text-slate-600">Email: {contactEmail}</p> : null}
           </div>
-        </div>
-
-        <div className="rounded-[24px] border border-slate-200 bg-white p-6 shadow-[0_16px_45px_rgba(15,23,42,.04)] sm:p-8">
-          <p className="text-[10px] font-black uppercase tracking-[.14em] text-[#1769ff]">Start here</p>
-          <h2 className="mt-2 text-[28px] font-black tracking-[-.035em]">New workshop?</h2>
-          <p className="mt-3 text-[13px] leading-6 text-slate-500">
-            The fastest path is to create your workshop account. Your signup captures the basic company and owner details needed for onboarding.
-          </p>
-
-          <Link href="/signup" className="mt-7 inline-flex h-12 w-full items-center justify-center rounded-xl bg-[#1769ff] px-6 text-[13px] font-extrabold text-white">
-            Create Workshop Account →
-          </Link>
-
-          <div className="mt-8 border-t border-slate-100 pt-6">
-            <p className="text-[12px] font-bold text-slate-700">Already planning a custom deployment?</p>
-            <p className="mt-2 text-[11px] leading-5 text-slate-500">
-              You can later connect this page to email, CRM, WhatsApp or a backend contact endpoint without changing the visual layout.
-            </p>
+          <div className="surface-card p-6 sm:p-9">
+            <p className="eyebrow">HOW WE CAN HELP</p>
+            <div className="mt-6 grid gap-4">
+              {topics.map((topic, index) => (
+                <div key={topic.title} className="flex gap-4 border-b border-slate-100 pb-4 last:border-0 last:pb-0">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-blue-50 text-sm font-extrabold text-blue-700">0{index + 1}</span>
+                  <div><h2 className="text-[17px] font-extrabold text-slate-900">{topic.title}</h2><p className="mt-2 text-[14px] leading-7 text-slate-600">{topic.description}</p></div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-
+        </section>
+        <section className="border-t border-slate-200 bg-white py-16">
+          <div className="page-shell flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+            <div><h2 className="section-title">Want to see the full workflow?</h2><p className="section-copy mt-3">See how CubeGears connects each step of a service job.</p></div>
+            <Link href="/how-it-works" className="button-primary focus-ring inline-flex">Explore the workflow ↗</Link>
+          </div>
+        </section>
+      </main>
       <PublicFooter />
-    </main>
+    </>
   );
 }

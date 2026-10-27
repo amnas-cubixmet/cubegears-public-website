@@ -6,12 +6,16 @@ export default function NotFound() {
   return (
     <>
       <PublicHeader />
-      <main id="main-content" className="page-shell grid min-h-[65vh] place-items-center py-18 text-center">
-        <div>
-          <p className="eyebrow justify-center">404 · PAGE NOT FOUND</p>
-          <h1 className="mt-5 text-[clamp(38px,5vw,58px)] font-extrabold tracking-[-.06em] text-slate-950">This page has taken a wrong turn.</h1>
-          <p className="section-copy mx-auto mt-5 max-w-lg">The link may have changed. Go back to the website and explore CubeGears.</p>
-          <Link href="/" className="button-primary focus-ring mt-8 inline-flex">Return home ↗</Link>
+      <main id="main-content" className="page-shell grid min-h-[65vh] place-items-center py-16 text-center">
+        <div className="max-w-2xl">
+          <span aria-hidden="true" className="text-[clamp(86px,14vw,160px)] font-black leading-none tracking-[-.09em] text-blue-100">404</span>
+          <p className="eyebrow mt-4 justify-center">PAGE NOT FOUND</p>
+          <h1 className="marketing-text-balance mt-5 text-[clamp(34px,5vw,56px)] font-extrabold leading-[1.1] tracking-[-.055em] text-slate-950">Looks like this page took a wrong turn.</h1>
+          <p className="section-copy mx-auto mt-5 max-w-lg">This link may have moved. You can go back home or explore the CubeGears features.</p>
+          <div className="responsive-actions mt-8 justify-center">
+            <Link href="/" className="button-primary focus-ring inline-flex">Back to home <span aria-hidden="true">↗</span></Link>
+            <Link href="/features" className="button-secondary focus-ring">Explore features <span aria-hidden="true">→</span></Link>
+          </div>
         </div>
       </main>
       <PublicFooter />

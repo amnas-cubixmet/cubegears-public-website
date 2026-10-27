@@ -2,52 +2,72 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PublicHeader } from "@/components/PublicHeader";
 import { PublicFooter } from "@/components/PublicFooter";
+import { PageHero, SectionLead } from "@/components/MarketingBlocks";
 
 export const metadata: Metadata = {
   title: "Contact & Onboarding",
-  description: "Learn how to get started with CubeGears and choose the right workshop onboarding path.",
+  description: "Find the right path to get started with CubeGears or learn more about workshop management.",
 };
 
 const topics = [
-  { title: "New workshop setup", description: "Create a company workspace and begin the owner onboarding flow." },
-  { title: "Product questions", description: "Explore feature modules, job workflows and workshop operations." },
-  { title: "Billing questions", description: "Learn how feature credits, usage and settlement are configured." },
-  { title: "Growing teams", description: "See how roles, staff and branches can fit into your operations." },
+  { number: "01", title: "Explore the software", description: "See how customers, vehicles, job cards, stock and invoices fit together.", href: "/features", label: "Browse features" },
+  { number: "02", title: "Understand the workflow", description: "Follow a service visit from the initial check-in through final delivery.", href: "/how-it-works", label: "See the workflow" },
+  { number: "03", title: "Review credit billing", description: "Learn how core tools, optional modules and configurable usage rules work.", href: "/pricing", label: "Explore pricing" },
 ];
 
 export default function ContactPage() {
   const contactEmail = process.env.CONTACT_EMAIL?.trim();
+
   return (
     <>
       <PublicHeader />
       <main id="main-content" className="bg-[#f7f9fd]">
-        <section className="page-shell grid gap-12 py-18 sm:py-24 lg:grid-cols-[.95fr_1.05fr] lg:items-center">
-          <div>
-            <p className="eyebrow">LET&apos;S GET YOUR WORKSHOP READY</p>
-            <h1 className="mt-5 text-[clamp(40px,5vw,64px)] font-extrabold leading-[1.09] tracking-[-.06em] text-[#0b1d37]">A better way to run your workshop starts here.</h1>
-            <p className="section-copy mt-6 max-w-xl">Find your next step, explore what CubeGears can do, or begin creating your workshop account.</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/signup" className="button-primary focus-ring inline-flex">Create workshop account ↗</Link>
-              {contactEmail ? <a className="button-secondary focus-ring" href={"mailto:" + contactEmail}>Email our team →</a> : <Link className="button-secondary focus-ring" href="/how-it-works">See how it works →</Link>}
-            </div>
-            {contactEmail ? <p className="mt-4 break-all text-[14px] text-slate-600">Email: {contactEmail}</p> : null}
+        <PageHero eyebrow="GET STARTED WITH CUBEGEARS" title="Let's get your workshop moving." description="Ready to create a workspace, or still exploring your options? Find the next step that works for your team.">
+          <div className="responsive-actions">
+            <Link href="/signup" className="button-primary focus-ring inline-flex">Create workshop account <span aria-hidden="true">↗</span></Link>
+            {contactEmail ? (
+              <a href={"mailto:" + contactEmail} className="button-secondary focus-ring">Email our team <span aria-hidden="true">↗</span></a>
+            ) : (
+              <Link href="/how-it-works" className="button-secondary focus-ring">See how it works <span aria-hidden="true">→</span></Link>
+            )}
           </div>
-          <div className="surface-card p-6 sm:p-9">
-            <p className="eyebrow">HOW WE CAN HELP</p>
-            <div className="mt-6 grid gap-4">
-              {topics.map((topic, index) => (
-                <div key={topic.title} className="flex gap-4 border-b border-slate-100 pb-4 last:border-0 last:pb-0">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-blue-50 text-sm font-extrabold text-blue-700">0{index + 1}</span>
-                  <div><h2 className="text-[17px] font-extrabold text-slate-900">{topic.title}</h2><p className="mt-2 text-[14px] leading-7 text-slate-600">{topic.description}</p></div>
-                </div>
+          {contactEmail ? <p className="mt-4 break-all text-[14px] font-semibold text-slate-600">Email: <a className="focus-ring underline decoration-blue-300 underline-offset-4 hover:text-blue-700" href={"mailto:" + contactEmail}>{contactEmail}</a></p> : null}
+        </PageHero>
+
+        <section className="section-pad">
+          <div className="page-shell">
+            <SectionLead eyebrow="HERE'S HOW TO BEGIN" title="Choose your next step." description="Find product details and onboarding information without waiting for a sales call." />
+            <div className="mt-10 grid gap-5 md:grid-cols-3">
+              {topics.map((topic) => (
+                <article key={topic.number} className="marketing-card surface-card-hover flex flex-col p-6 sm:p-8">
+                  <span className="marketing-number" aria-hidden="true">{topic.number}</span>
+                  <h3 className="mt-7 text-[22px] font-extrabold tracking-[-.035em] text-slate-950">{topic.title}</h3>
+                  <p className="mt-4 flex-1 text-[15px] leading-7 text-slate-600">{topic.description}</p>
+                  <Link href={topic.href} className="focus-ring mt-6 inline-flex w-fit items-center gap-2 rounded-lg py-2 text-[14px] font-extrabold text-blue-700 hover:text-blue-900">{topic.label} <span aria-hidden="true">→</span></Link>
+                </article>
               ))}
             </div>
           </div>
         </section>
-        <section className="border-t border-slate-200 bg-white py-16">
-          <div className="page-shell flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
-            <div><h2 className="section-title">Want to see the full workflow?</h2><p className="section-copy mt-3">See how CubeGears connects each step of a service job.</p></div>
-            <Link href="/how-it-works" className="button-primary focus-ring inline-flex">Explore the workflow ↗</Link>
+
+        <section className="border-t border-slate-200 bg-white py-14 sm:py-18">
+          <div className="page-shell grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
+            <div>
+              <SectionLead eyebrow="ACCOUNT ONBOARDING" title="What happens when you sign up?" description="Start with your workshop details and the owner's contact information. Registration is connected to the CubeGears account setup service." />
+              <Link href="/signup" className="button-primary focus-ring mt-7 inline-flex">Start registration <span aria-hidden="true">↗</span></Link>
+            </div>
+            <ol className="marketing-card space-y-0 p-6 sm:p-8">
+              {[
+                ["01", "Enter workshop details", "Provide the workshop name and owner's contact details."],
+                ["02", "Submit registration", "Your details are sent securely to the registration service."],
+                ["03", "Set up access", "Follow the secure password setup email once registration succeeds."],
+              ].map(([number, title, description], index) => (
+                <li key={number} className={"flex items-start gap-4 " + (index < 2 ? "mb-5 border-b border-slate-100 pb-5" : "")}>
+                  <span className="marketing-number" aria-hidden="true">{number}</span>
+                  <div><h3 className="text-[16px] font-extrabold text-slate-900">{title}</h3><p className="mt-1 text-[14px] leading-7 text-slate-600">{description}</p></div>
+                </li>
+              ))}
+            </ol>
           </div>
         </section>
       </main>

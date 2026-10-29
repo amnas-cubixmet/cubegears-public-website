@@ -40,9 +40,24 @@ export default function SignupForm() {
     if (loading) return;
     setError("");
 
+    const workshopName = form.workshopName.trim();
+    const ownerName = form.ownerName.trim();
+    const email = form.email.trim().toLowerCase();
     const mobile = form.mobile.replace(/[\s()-]/g, "");
+    if (workshopName.length < 2) {
+      setError("Workshop name must contain at least 2 characters.");
+      return;
+    }
+    if (ownerName.length < 2) {
+      setError("Owner name must contain at least 2 characters.");
+      return;
+    }
     if (!/^\+?\d{10,15}$/.test(mobile)) {
       setError("Enter a valid mobile number (10–15 digits).");
+      return;
+    }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Enter a valid email address.");
       return;
     }
     if (!form.terms) {
@@ -53,14 +68,15 @@ export default function SignupForm() {
     setLoading(true);
     try {
       await createWorkshopAccount({
-        workshopName: form.workshopName.trim(),
-        ownerName: form.ownerName.trim(),
-        mobile: form.mobile.trim(),
-        email: form.email.trim(),
+        workshopName,
+        ownerName,
+        mobile,
+        email,
       });
       router.push("/signup/success");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      const message = err instanceof Error ? err.message : "Something went wrong. Please try again.";
+      setError(message);
     } finally {
       setLoading(false);
     }

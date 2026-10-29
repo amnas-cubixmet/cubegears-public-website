@@ -59,8 +59,8 @@ export async function POST(request: Request) {
   const backendPayload = {
     workshop_name: payload.workshopName.trim(),
     owner_name: payload.ownerName.trim(),
-    mobile: payload.mobile.trim(),
-    email: payload.email.trim(),
+    mobile: payload.mobile.replace(/[\\s()-]/g, ""),
+    email: payload.email.trim().toLowerCase(),
   };
 
   try {
@@ -72,9 +72,26 @@ export async function POST(request: Request) {
       signal: AbortSignal.timeout(12000),
     });
 
-    const data: unknown = await response.json().catch(() => ({ message: "Unable to process registration." }));
+    // Django/DRF validation errors are JSON. An HTML 400 often indicates an
+    // upstream host/proxy configuration problem; don't disguise it as a
+    // workshop form error or send backend HTML to the browser.
+    const contentType = response.headers.get("content-type") || "";
+    if (!/\\bjson\\b|\\+json\\b/i.test(contentType)) {
+      return NextResponse.json(
+        { message: "The registration server returned an unexpected response. Please contact support." },
+        { status: 502 },
+      );
+    }
+    const data: unknown = await response.json().catch(() => null);
+    if (!data || typeof data !== "object" || Array.isArray(data)) {
+      return NextResponse.json(
+        { message: "The registration service returned an invalid response. Please contact support." },
+        { status: 502 },
+      );
+    }
     if (response.ok) return NextResponse.json(data, { status: response.status });
-    // Expose normal validation feedback but never arbitrary upstream error pages.
+    // Expose real Django field validation, including duplicate emails, but
+    // never leak internal errors or unrelated upstream payloads.
     if (response.status >= 500) {
       return NextResponse.json({ message: "Registration is temporarily unavailable." }, { status: 502 });
     }

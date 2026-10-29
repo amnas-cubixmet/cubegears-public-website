@@ -77,8 +77,16 @@ export async function POST(request: Request) {
     // workshop form error or send backend HTML to the browser.
     const contentType = response.headers.get("content-type") || "";
     if (!contentType.toLowerCase().includes("json")) {
+      // Do not log names, emails, phone numbers, tokens or upstream HTML.
+      console.error("[public-signup] Non-JSON backend response", {
+        status: response.status,
+        contentType: contentType.split(";")[0],
+      });
       return NextResponse.json(
-        { message: "The registration server returned an unexpected response. Please contact support." },
+        {
+          message: `Registration service returned an unexpected response (HTTP ${response.status}). Please contact support.`,
+          code: "SIGNUP_UPSTREAM_NON_JSON",
+        },
         { status: 502 },
       );
     }

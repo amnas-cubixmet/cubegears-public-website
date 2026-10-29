@@ -59,7 +59,7 @@ export async function POST(request: Request) {
   const backendPayload = {
     workshop_name: payload.workshopName.trim(),
     owner_name: payload.ownerName.trim(),
-    mobile: payload.mobile.replace(/[\\s()-]/g, ""),
+    mobile: payload.mobile.replace(/[\s()-]/g, ""),
     email: payload.email.trim().toLowerCase(),
   };
 
@@ -76,7 +76,7 @@ export async function POST(request: Request) {
     // upstream host/proxy configuration problem; don't disguise it as a
     // workshop form error or send backend HTML to the browser.
     const contentType = response.headers.get("content-type") || "";
-    if (!/\\bjson\\b|\\+json\\b/i.test(contentType)) {
+    if (!contentType.toLowerCase().includes("json")) {
       return NextResponse.json(
         { message: "The registration server returned an unexpected response. Please contact support." },
         { status: 502 },

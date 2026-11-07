@@ -9,7 +9,13 @@ type SignupRequest = {
 };
 
 function getBackendUrl(): string | null {
-  const baseUrl = process.env.BACKEND_API_URL?.trim().replace(/\/$/, "");
+  // Local development should work with Django on port 8000 even before
+  // .env.local is created. Never use localhost as a production fallback:
+  // a deployed Next.js server cannot reach the developer's laptop.
+  const configuredUrl = process.env.BACKEND_API_URL?.trim();
+  const baseUrl = (configuredUrl || (
+    process.env.NODE_ENV === "production" ? "" : "http://127.0.0.1:8000/api/v1"
+  )).replace(/\/+$/, "");
   const endpoint = (process.env.BACKEND_SIGNUP_PATH || "/auth/signup").trim();
   if (!baseUrl) return null;
 
@@ -59,7 +65,14 @@ export async function POST(request: Request) {
 
   const backendUrl = getBackendUrl();
   if (!backendUrl) {
-    return NextResponse.json({ message: "Registration is temporarily unavailable. Please contact support." }, { status: 503 });
+    console.error("[public-signup] Backend endpoint is not configured");
+    return NextResponse.json(
+      {
+        message: "Registration is temporarily unavailable. Please contact support.",
+        code: "SIGNUP_BACKEND_NOT_CONFIGURED",
+      },
+      { status: 503 },
+    );
   }
 
   const backendPayload = {
@@ -111,7 +124,23 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Registration is temporarily unavailable." }, { status: 502 });
     }
     return NextResponse.json(data, { status: response.status });
-  } catch {
-    return NextResponse.json({ message: "Unable to reach the CubeGears registration service. Please try again." }, { status: 502 });
+  } catch (error) {
+    // Log only connection metadata. Never log signup fields, tokens or
+    // upstream response bodies. Do not retry a POST: it may create duplicates.
+    const timedOut = error instanceof Error &&
+      (error.name === "TimeoutError" || error.name === "AbortError");
+    console.error("[public-signup] Backend connection failed", {
+      host: new URL(backendUrl).host,
+      reason: timedOut ? "timeout" : "network",
+    });
+    return NextResponse.json(
+      {
+        message: process.env.NODE_ENV !== "production"
+          ? "CubeGears Django backend is unreachable. Start it on port 8000 or correct BACKEND_API_URL in .env.local."
+          : "Unable to reach the CubeGears registration service. Please try again or contact support.",
+        code: timedOut ? "SIGNUP_BACKEND_TIMEOUT" : "SIGNUP_BACKEND_UNREACHABLE",
+      },
+      { status: timedOut ? 504 : 502 },
+    );
   }
 }

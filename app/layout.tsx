@@ -11,17 +11,17 @@ const siteUrl = process.env.SITE_URL;
 export const metadata: Metadata = {
   ...(siteUrl ? { metadataBase: new URL(siteUrl) } : {}),
   title: {
-    default: "CubixGears | Workshop Management Software",
-    template: "%s | CubixGears",
+    default: "CubixGear | Workshop Management Software",
+    template: "%s | CubixGear",
   },
   description:
     "Manage car and motorcycle workshop customers, vehicles, job cards, inventory, invoices, staff and reports in one connected platform.",
-  applicationName: "CubixGears",
+  applicationName: "CubixGear",
   robots: { index: true, follow: true },
   openGraph: {
     type: "website",
-    siteName: "CubixGears",
-    title: "CubixGears | Workshop Management Software",
+    siteName: "CubixGear",
+    title: "CubixGear | Workshop Management Software",
     description: "A connected platform for modern car and motorcycle service workshops.",
   },
 };

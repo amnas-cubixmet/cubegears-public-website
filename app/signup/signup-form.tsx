@@ -115,7 +115,12 @@ export default function SignupForm() {
               name="countryCode"
               aria-label="Country calling code"
               value={form.countryCode}
-              onChange={(e) => setField("countryCode", e.target.value)}
+              onChange={(e) => {
+                // The national number must be entered again when changing country:
+                // a number from the previous country may have a different length.
+                setForm((current) => ({ ...current, countryCode: e.target.value, mobile: "" }));
+                setError("");
+              }}
               className="h-12 w-[106px] shrink-0 rounded-xl border border-slate-300 bg-white px-2 text-[14px] font-semibold text-slate-900 outline-none transition hover:border-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-100 sm:w-[110px]"
             >
               {countryCodes.map((country) => (
@@ -126,13 +131,14 @@ export default function SignupForm() {
               id="mobile"
               name="mobile"
               className={phoneFieldClass}
-              placeholder={selectedCountry.digits === 10 ? "98765 43210" : "Mobile number"}
+              placeholder={`${selectedCountry.digits}-digit number`}
               type="tel"
               inputMode="numeric"
               autoComplete="tel-national"
-              maxLength={15}
+              maxLength={selectedCountry.digits}
+              pattern={`[0-9]{${selectedCountry.digits}}`}
               value={form.mobile}
-              onChange={(e) => setField("mobile", e.target.value.replace(/\D/g, ""))}
+              onChange={(e) => setField("mobile", e.target.value.replace(/\D/g, "").slice(0, selectedCountry.digits))}
               required
             />
           </div>

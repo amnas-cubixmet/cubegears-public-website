@@ -52,10 +52,6 @@ a { color: inherit; text-decoration: none; }
   white-space: nowrap; transition: color .22s ease;
 }
 .site-nav-link:hover, .site-nav-link-active { color: #2155bd; background: #f0f5ff; border-radius: 8px; }
-.site-nav-link-active::after {
-  content: ""; position: absolute; height: 3px; bottom: 3px; left: 12px; right: 12px;
-  background: #2563eb; border-radius: 4px;
-}
 .site-mobile-panel {
   position: absolute; top: 100%; left: 0; right: 0; z-index: 60;
   max-height: calc(100dvh - 76px); overflow-y: auto; overscroll-behavior: contain;
@@ -121,10 +117,10 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
 .surface-card-hover { transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; }
 .surface-card-hover:hover { transform: translateY(-5px); border-color: #c0d5f5; box-shadow: 0 22px 45px rgba(16,17,20,.10); }
 .marketing-hero {
-  position: relative; background: #faf9f7; border-color: transparent;
+  position: relative; background: #f7faff; border-color: transparent;
 }
 .marketing-hero-dark {
-  background: radial-gradient(ellipse at 84% 16%,rgba(40,99,211,.15),transparent 52%),linear-gradient(135deg,#101215 0%,#262629 100%);
+  background: radial-gradient(ellipse at 84% 16%,rgba(40,99,211,.15),transparent 52%),linear-gradient(135deg,#0d2449 0%,#153e78 100%);
   color: #fff; border-color: #353638;
 }
 .marketing-hero::before {
@@ -184,21 +180,19 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
 /* Editorial sections and small accents */
 .stat-strip {
   display: grid; gap: 0; grid-template-columns: repeat(3,minmax(0,1fr));
-  background: #181a1d; color: #fff; border-radius: 12px;
+  background: #142f59; color: #fff; border-radius: 12px;
 }
 .stat-strip > * { padding: 23px; border: 0; }
 .stat-strip > *:last-child { border-right: 0; }
 .stat-strip strong { display: block; color: #fff; font-size: 18px; letter-spacing: -.02em; }
 .stat-strip small { display: block; margin-top: 3px; color: #b6b7b9; font-size: 12px; }
 .premium-rule { display: none; }
-.quote-card { border: 0; background: #faf9f7; padding: 26px; border-radius: 0 12px 12px 0; }
+.quote-card { border: 0; background: #f7faff; padding: 26px; border-radius: 0 12px 12px 0; }
 .footer-link { width: fit-content; color: #b7b9bb; font-size: 14px; line-height: 1.8; transition: color .2s ease; }
 .footer-link:hover { color: #fff; }
 
-/* Signup: premium two-column layout and focus on a real working form */
+/* Signup: focused single-card form, without a promotional image container. */
 .signup-stage { background: #f5f8ff; }
-.signup-grid { display: grid; align-items: stretch; gap: 20px; }
-.signup-story { min-height: 580px; border-radius: 15px; }
 .signup-card {
   background: #fff; padding: clamp(24px,4.1vw,48px);
   border: 0; border-radius: 16px;
@@ -214,7 +208,7 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
 .signup-input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,.13); }
 .signup-input::placeholder { color: #999ca1; }
 .signup-label { display: block; color: #303237; font-size: 13px; font-weight: 750; }
-.signup-error { color: #a0121f; background: #edf4ff; border: 1px solid #f4b5bc; border-radius: 7px; padding: 13px 16px; font-size: 13px; line-height: 1.6; }
+.signup-error { color: #a0121f; background: #fff1f2; border: 1px solid #f4b5bc; border-radius: 7px; padding: 13px 16px; font-size: 13px; line-height: 1.6; }
 .signup-country { width: 124px; min-width: 105px; padding-inline: 10px; flex: none; }
 .signup-country option { color: #17283d; }
 
@@ -235,15 +229,11 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
 @media (min-width: 768px) {
   .page-shell { width: min(1260px, calc(100% - 76px)); }
 }
-@media (min-width: 1024px) {
-  .signup-grid { grid-template-columns: minmax(0,.94fr) minmax(0,1.06fr); }
-}
 @media (max-width: 767px) {
   .section-pad { padding-block: 58px; }
   .stat-strip { grid-template-columns: 1fr; }
   .stat-strip > * { padding: 16px 20px; border: 0; }
   .stat-strip > *:last-child { border-bottom: 0; }
-  .signup-story { min-height: 310px; }
   .photo-caption { font-size: 9px; }
   .page-hero-centered .photo-frame { max-height: 320px; }
 }
@@ -270,7 +260,7 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
 /* Blue refresh: remove purely decorative rules throughout the public site.
    Functional input outlines and keyboard focus indicators remain visible. */
 .site-header { border: 0; box-shadow: 0 4px 24px rgba(22,61,135,.045); }
-.site-nav-link-active::after, .eyebrow::before, .marketing-cta::before, .premium-rule { display: none !important; }
+.eyebrow::before, .marketing-cta::before, .premium-rule { display: none !important; }
 .eyebrow { gap: 0; }
 .surface-card, .marketing-card, .signup-card { border: 0; }
 .marketing-hero, .marketing-hero-dark, .marketing-chip, .marketing-number, .photo-label { border: 0; }

@@ -64,6 +64,8 @@ export default function SignupPage() {
           <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-[13px] text-[#77797b]">
             <span>Want to see what&apos;s included?</span>
             <Link href="/features" className="font-bold text-[#b81725] hover:underline">Explore platform features</Link>
+            <span className="text-[#bebcbb]" aria-hidden="true">·</span>
+            <Link href="/how-it-works" className="font-bold text-[#b81725] hover:underline">Learn how it works</Link>
           </div>
         </section>
       </main>

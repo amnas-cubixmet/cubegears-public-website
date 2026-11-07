@@ -2,45 +2,44 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 
 /**
- * Licensed editorial workshop photography from Pexels.
- * Keep real photography separate from the product UI: these images are
- * illustrative and must never imply customer endorsement or a live workshop.
+ * All workshop photos are bundled in /public/images and served by this site.
+ * See public/images/PHOTO-CREDITS.md for the original Pexels photo licenses.
  */
 const photography = {
   garage: {
-    src: "https://images.pexels.com/photos/15489247/pexels-photo-15489247.jpeg?auto=compress&cs=tinysrgb&w=1800",
+    src: "/images/car-workshop.webp",
     alt: "Cars inside a professional automotive maintenance workshop",
   },
   service: {
-    src: "https://images.pexels.com/photos/8985456/pexels-photo-8985456.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    src: "/images/car-service.webp",
     alt: "Technician inspecting a car engine in an automotive service bay",
   },
   team: {
-    src: "https://images.pexels.com/photos/15489247/pexels-photo-15489247.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    src: "/images/car-team.webp",
     alt: "Automotive technicians working together inside a garage",
   },
   engine: {
-    src: "https://images.pexels.com/photos/8986040/pexels-photo-8986040.jpeg?auto=compress&cs=tinysrgb&w=1400",
+    src: "/images/car-engine.webp",
     alt: "Mechanic repairing vehicle engine components in a workshop",
   },
   inspection: {
-    src: "https://images.pexels.com/photos/8985917/pexels-photo-8985917.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    src: "/images/car-inspection.webp",
     alt: "Mechanic inspecting and servicing an open car engine",
   },
   workshop: {
-    src: "https://images.pexels.com/photos/33814735/pexels-photo-33814735.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    alt: "Car technician carrying out maintenance inside an auto workshop",
+    src: "/images/garage-interior.webp",
+    alt: "Cars undergoing repairs in a professional vehicle workshop",
   },
   bike: {
-    src: "https://images.pexels.com/photos/11890964/pexels-photo-11890964.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    src: "/images/bike-repair.webp",
     alt: "Motorcycle mechanic servicing a bike engine inside a workshop",
   },
   bikeTeam: {
-    src: "https://images.pexels.com/photos/8550666/pexels-photo-8550666.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    alt: "Two mechanics repairing a motorcycle inside a garage",
+    src: "/images/bike-team.webp",
+    alt: "Motorcycle mechanic servicing a bike inside a repair garage",
   },
   bikeService: {
-    src: "https://images.pexels.com/photos/3822784/pexels-photo-3822784.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    src: "/images/bike-service.webp",
     alt: "Technician repairing a motorbike at a motorcycle service centre",
   },
 } as const;
@@ -73,7 +72,6 @@ export function WorkshopPhoto({
         src={asset.src}
         alt={asset.alt}
         fill
-        unoptimized
         priority={priority}
         sizes={sizes}
         className="photo-image"

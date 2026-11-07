@@ -25,9 +25,9 @@ export default function FeaturesPage() {
       <main id="main-content" className="bg-[#f7f6f4]">
         <PageHero eyebrow="ONE CONNECTED WORKSPACE" title="Tools that work together, just like your team." description="For car garages and motorcycle service centres, CubeGears keeps every service visit connected from check-in to delivery." center image="garage">
           <div className="flex flex-wrap items-center justify-center gap-2">
-            {["Customer & vehicle", "Job card", "Parts & labour", "Invoice"].map((step, index) => (
+            {["Customer & vehicle", "Job card", "Parts & labour", "Invoice"].map((step) => (
               <div key={step} className="flex items-center gap-2">
-                {index > 0 ? : null}
+                
                 <span className="marketing-chip">{step}</span>
               </div>
             ))}

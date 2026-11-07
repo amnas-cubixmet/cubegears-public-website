@@ -22,8 +22,8 @@ export default function FeaturesPage() {
   return (
     <>
       <PublicHeader />
-      <main id="main-content" className="bg-[#f7f6f4]">
-        <PageHero eyebrow="ONE CONNECTED WORKSPACE" title="Tools that work together, just like your team." description="For car garages and motorcycle service centres, CubeGears keeps every service visit connected from check-in to delivery." center image="garage">
+      <main id="main-content" className="bg-[#f5f8ff]">
+        <PageHero eyebrow="ONE CONNECTED WORKSPACE" title="Tools that work together, just like your team." description="For car garages and motorcycle service centres, CubixGears keeps every service visit connected from check-in to delivery." center image="garage">
           <div className="flex flex-wrap items-center justify-center gap-2">
             {["Customer & vehicle", "Job card", "Parts & labour", "Invoice"].map((step) => (
               <div key={step} className="flex items-center gap-2">
@@ -44,9 +44,9 @@ export default function FeaturesPage() {
                     <span className="marketing-number" aria-hidden="true">{group.number}</span>
                     <span className="text-[11px] font-extrabold uppercase tracking-[.15em] text-slate-400">Workshop tools</span>
                   </div>
-                  <h3 className="mt-7 text-[23px] font-extrabold tracking-[-.04em] text-[#17191b] sm:text-[25px]">{group.title}</h3>
+                  <h3 className="mt-7 text-[23px] font-extrabold tracking-[-.04em] text-[#17283d] sm:text-[25px]">{group.title}</h3>
                   <p className="mt-3 text-[15px] leading-7 text-slate-600">{group.desc}</p>
-                  <div className="mt-6 flex flex-wrap gap-2 border-t border-[#efeded] pt-6">
+                  <div className="mt-6 flex flex-wrap gap-2 border-[#edf2fa] pt-6">
                     {group.items.map((item) => <span key={item} className="marketing-chip">{item}</span>)}
                   </div>
                 </article>
@@ -55,11 +55,11 @@ export default function FeaturesPage() {
           </div>
         </section>
 
-        <section className="border-y border-[#e9e7e6] bg-white py-14 sm:py-18">
+        <section className=" border-[#e8effa] bg-white py-14 sm:py-18">
           <div className="page-shell grid gap-8 lg:grid-cols-[.85fr_1.15fr] lg:items-center">
             <div>
               <SectionLead eyebrow="CONNECTED BY DESIGN" title="One service visit. A clearer record." description="Keep the steps of a job together, from intake to final billing, instead of switching between spreadsheets and chat threads." />
-              <Link href="/how-it-works" className="focus-ring mt-6 inline-flex items-center gap-2 rounded-lg py-2 font-bold text-[#b51625] hover:text-[#951320]">See the service workflow</Link>
+              <Link href="/how-it-works" className="focus-ring mt-6 inline-flex items-center gap-2 rounded-lg py-2 font-bold text-[#245bd5] hover:text-[#174399]">See the service workflow</Link>
             </div>
             <div className="marketing-card p-6 sm:p-8">
               {[
@@ -67,13 +67,13 @@ export default function FeaturesPage() {
                 ["02", "Service", "Job notes, parts and work status"],
                 ["03", "Handover", "Invoice and service history"],
               ].map(([number, title, body], index) => (
-                <div key={number} className={"flex gap-4 " + (index < 2 ? "border-b border-[#efeded] pb-5 mb-5" : "")}>
+                <div key={number} className={"flex gap-4 " + (index < 2 ? " border-[#edf2fa] pb-5 mb-5" : "")}>
                   <span className="marketing-number" aria-hidden="true">{number}</span>
                   <div>
-                    <p className="text-[16px] font-extrabold text-[#17191b]">{title}</p>
+                    <p className="text-[16px] font-extrabold text-[#17283d]">{title}</p>
                     <p className="mt-1 text-[14px] leading-6 text-slate-600">{body}</p>
                   </div>
-                  <span className="ml-auto self-center text-[#cd1d2b]" aria-hidden="true">✓</span>
+                  <span className="ml-auto self-center text-[#2563eb]" aria-hidden="true">✓</span>
                 </div>
               ))}
             </div>

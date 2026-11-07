@@ -149,8 +149,8 @@ export async function POST(request: Request) {
         message: timedOut
           ? "Registration confirmation timed out. Your workshop may already be created. Check your email before submitting again; contact support if you cannot access your account."
           : process.env.NODE_ENV !== "production"
-            ? "CubeGears Django backend is unreachable. Start it on port 8000 or correct BACKEND_API_URL in .env.local."
-            : "Unable to reach the CubeGears registration service. Please contact support.",
+            ? "CubixGears Django backend is unreachable. Start it on port 8000 or correct BACKEND_API_URL in .env.local."
+            : "Unable to reach the CubixGears registration service. Please contact support.",
         code: timedOut ? "SIGNUP_BACKEND_TIMEOUT" : "SIGNUP_BACKEND_UNREACHABLE",
       },
       { status: timedOut ? 504 : 502 },

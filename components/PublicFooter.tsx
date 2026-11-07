@@ -15,7 +15,7 @@ const companyLinks = [
 
 export function PublicFooter() {
   return (
-    <footer className="border-t border-[#333436] bg-[#151618] text-white">
+    <footer className=" border-[#333436] bg-[#122a4f] text-white">
       <div className="page-shell grid gap-10 py-14 md:grid-cols-[1.5fr_1fr_1fr] md:py-18">
         <div>
           <Brand light />
@@ -36,9 +36,9 @@ export function PublicFooter() {
           </div>
         </nav>
       </div>
-      <div className="border-t border-white/10">
+      <div className=" border-white/10">
         <div className="page-shell flex flex-col gap-3 py-5 text-[13px] text-slate-400 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} CubeGears. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} CubixGears. All rights reserved.</p>
           <p>Made for car and motorcycle service teams.</p>
         </div>
       </div>

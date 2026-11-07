@@ -7,7 +7,7 @@ import { WorkshopPhoto } from "@/components/WorkshopPhoto";
 
 export const metadata: Metadata = {
   title: "For Automobile Workshops",
-  description: "CubeGears workshop management for car garages, motorcycle service centres, specialist and multi-branch operations.",
+  description: "CubixGears workshop management for car garages, motorcycle service centres, specialist and multi-branch operations.",
 };
 
 const workshopTypes = [
@@ -22,11 +22,11 @@ export default function ForWorkshopsPage() {
   return (
     <>
       <PublicHeader />
-      <main id="main-content" className="bg-[#f7f6f4]">
+      <main id="main-content" className="bg-[#f5f8ff]">
         <section className="marketing-hero marketing-hero-dark relative overflow-hidden text-white">
           <div className="page-shell relative grid items-center gap-10 py-16 sm:py-22 lg:grid-cols-[1.05fr_.95fr] lg:gap-14">
             <div>
-              <p className="eyebrow !text-red-300">BUILT FOR SERVICE TEAMS</p>
+              <p className="eyebrow !text-blue-300">BUILT FOR SERVICE TEAMS</p>
               <h1 className="marketing-text-balance mt-5 text-[clamp(38px,5vw,64px)] font-extrabold leading-[1.09] tracking-[-.058em]">Built for cars, bikes and the teams servicing them.</h1>
               <p className="mt-6 max-w-xl text-[16px] leading-8 text-slate-300 sm:text-[17px]">Keep the front desk, technicians and managers connected around every car and motorcycle service visit.</p>
               <div className="responsive-actions mt-8">
@@ -34,11 +34,11 @@ export default function ForWorkshopsPage() {
                 <Link href="/features" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/25 px-5 py-3 text-[14px] font-bold text-white transition hover:bg-white/10 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-blue-300">Explore features</Link>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              <WorkshopPhoto photo="bikeTeam" className="h-[340px] sm:h-[470px] lg:h-[500px]" priority caption="Two-wheeler repair" shade>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <WorkshopPhoto photo="bikeTeam" className="h-[300px] sm:h-[470px] lg:h-[500px]" priority caption="Two-wheeler repair" shade>
                 <div className="photo-label">BIKE WORKSHOPS</div>
               </WorkshopPhoto>
-              <WorkshopPhoto photo="service" className="h-[340px] sm:h-[470px] lg:h-[500px]" priority caption="Automotive garage" shade>
+              <WorkshopPhoto photo="service" className="h-[300px] sm:h-[470px] lg:h-[500px]" priority caption="Automotive garage" shade>
                 <div className="photo-label">CAR SERVICE</div>
               </WorkshopPhoto>
             </div>
@@ -53,11 +53,11 @@ export default function ForWorkshopsPage() {
                 <article key={item.number} className="marketing-card surface-card-hover flex flex-col p-7 sm:p-9">
                   <div className="flex items-center justify-between">
                     <span className="marketing-number" aria-hidden="true">{item.number}</span>
-                    <span className="h-px w-14 bg-red-100" aria-hidden="true" />
+                    
                   </div>
-                  <h3 className="mt-7 text-[24px] font-extrabold tracking-[-.04em] text-[#17191b]">{item.title}</h3>
+                  <h3 className="mt-7 text-[24px] font-extrabold tracking-[-.04em] text-[#17283d]">{item.title}</h3>
                   <p className="mt-3 flex-1 text-[15px] leading-8 text-slate-600">{item.description}</p>
-                  <p className="mt-6 border-t border-[#efeded] pt-5 text-[13px] font-bold text-[#b51625]"><span aria-hidden="true">✓ </span>{item.detail}</p>
+                  <p className="mt-6 border-[#edf2fa] pt-5 text-[13px] font-bold text-[#245bd5]"><span aria-hidden="true">✓ </span>{item.detail}</p>
                 </article>
               ))}
             </div>

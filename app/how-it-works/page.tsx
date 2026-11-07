@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const phases = [
-  { number: "01", label: "INTAKE", title: "Welcome & inspect", description: "Start each service visit with the right information.", steps: [
+  { number: "01", label: "INTAKE", title: "Welcome & inspect", description: "Start car and motorcycle service visits with the right information.", steps: [
     ["01", "Check in the customer", "Find or create the customer and select their vehicle."],
     ["02", "Inspect the vehicle", "Record the concern, inspection notes and recommended work."],
   ] },

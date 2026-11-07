@@ -89,7 +89,9 @@ export async function POST(request: Request) {
       headers: { "Content-Type": "application/json", Accept: "application/json" },
       body: JSON.stringify(backendPayload),
       cache: "no-store",
-      signal: AbortSignal.timeout(12000),
+      // Allow Django to finish its DB commit and setup-email dispatch.
+      // A premature timeout can hide a successfully created workshop.
+      signal: AbortSignal.timeout(25000),
     });
 
     // Django/DRF validation errors are JSON. An HTML 400 often indicates an
@@ -123,6 +125,15 @@ export async function POST(request: Request) {
     if (response.status >= 500) {
       return NextResponse.json({ message: "Registration is temporarily unavailable." }, { status: 502 });
     }
+    // Log only validation field names and an opaque request reference.
+    // Never log workshop data, email/mobile values, or setup secrets.
+    if (response.status === 400) {
+      console.warn("[public-signup] Backend rejected registration", {
+        status: response.status,
+        fields: Object.keys(data),
+        requestId: response.headers.get("x-request-id") || undefined,
+      });
+    }
     return NextResponse.json(data, { status: response.status });
   } catch (error) {
     // Log only connection metadata. Never log signup fields, tokens or
@@ -135,9 +146,11 @@ export async function POST(request: Request) {
     });
     return NextResponse.json(
       {
-        message: process.env.NODE_ENV !== "production"
-          ? "CubeGears Django backend is unreachable. Start it on port 8000 or correct BACKEND_API_URL in .env.local."
-          : "Unable to reach the CubeGears registration service. Please try again or contact support.",
+        message: timedOut
+          ? "Registration confirmation timed out. Your workshop may already be created. Check your email before submitting again; contact support if you cannot access your account."
+          : process.env.NODE_ENV !== "production"
+            ? "CubeGears Django backend is unreachable. Start it on port 8000 or correct BACKEND_API_URL in .env.local."
+            : "Unable to reach the CubeGears registration service. Please contact support.",
         code: timedOut ? "SIGNUP_BACKEND_TIMEOUT" : "SIGNUP_BACKEND_UNREACHABLE",
       },
       { status: timedOut ? 504 : 502 },

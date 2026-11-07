@@ -13,7 +13,7 @@ test("signup proxies only POST and retains backend URL config", () => {
   assert.match(route, /process\.env\.BACKEND_SIGNUP_PATH/);
   assert.match(route, /"\/auth\/signup"/);
   assert.match(route, /cache: "no-store"/);
-  assert.match(route, /signal: AbortSignal\.timeout\(12000\)/);
+  assert.match(route, /signal: AbortSignal\.timeout\(25000\)/);
 });
 
 test("submit normalizes contact details and API proxy repeats safe normalization", () => {

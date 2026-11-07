@@ -18,6 +18,9 @@ test("network errors are diagnostic and signup POST is not retried", () => {
   const route = read("app/api/signup/route.ts");
   assert.match(route, /SIGNUP_BACKEND_UNREACHABLE/);
   assert.match(route, /SIGNUP_BACKEND_TIMEOUT/);
+  assert.match(route, /Registration confirmation timed out/);
+  assert.match(route, /Your workshop may already be created/);
+  assert.match(route, /AbortSignal\.timeout\(25000\)/);
   assert.match(route, /reason: timedOut \? "timeout" : "network"/);
   assert.match(route, /status: timedOut \? 504 : 502/);
   assert.match(route, /Never log signup fields, tokens/);

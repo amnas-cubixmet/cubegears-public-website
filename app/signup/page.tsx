@@ -38,7 +38,7 @@ export default function SignupPage() {
               </ul>
               <div className="mt-9 border-t border-white/15 pt-6">
                 <p className="text-[12px] font-bold tracking-[.12em] text-blue-200">WHAT HAPPENS NEXT</p>
-                <p className="mt-2 text-[14px] leading-7 text-slate-300">After a successful registration, check the email or WhatsApp contact method you provided for the secure password setup link.</p>
+                <p className="mt-2 text-[14px] leading-7 text-slate-300">After a successful registration, check your email for the secure password setup link.</p>
                 <Link href="/how-it-works" className="focus-ring mt-4 inline-flex items-center gap-2 rounded-lg py-2 text-[14px] font-bold text-white underline decoration-blue-300 underline-offset-4 hover:text-blue-200">Learn how it works <span aria-hidden="true">→</span></Link>
               </div>
             </div>

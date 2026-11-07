@@ -20,23 +20,23 @@ const brandingSources = [
   "components/PublicFooter.tsx",
 ];
 
-test("all public-facing product naming uses CubixGears, not the old brand", () => {
+test("all public-facing product naming uses CubixGear, not the old brand", () => {
   for (const path of brandingSources) {
-    assert.doesNotMatch(read(path), /CubeGears/, path + " has an old visible product name");
+    assert.doesNotMatch(read(path), /CubeGears|CubixGears/, path + " has an old visible product name");
   }
-  assert.match(read("app/layout.tsx"), /applicationName: "CubixGears"/);
-  assert.match(read("app/layout.tsx"), /siteName: "CubixGears"/);
-  assert.match(read("app/signup/page.tsx"), /CubixGears workspace/);
-  assert.match(read("components/PublicFooter.tsx"), /CubixGears\. All rights reserved/);
+  assert.match(read("app/layout.tsx"), /applicationName: "CubixGear"/);
+  assert.match(read("app/layout.tsx"), /siteName: "CubixGear"/);
+  assert.match(read("app/signup/page.tsx"), /CubixGear workspace/);
+  assert.match(read("components/PublicFooter.tsx"), /CubixGear\. All rights reserved/);
 });
 
-test("header and footer use a text-only CubixGears brand with no CG logo block", () => {
+test("header and footer use a text-only CubixGear brand with no CG logo block", () => {
   const brand = read("components/Brand.tsx");
   const header = read("components/PublicHeader.tsx");
   const footer = read("components/PublicFooter.tsx");
   const css = read("app/globals.css");
-  assert.match(brand, /CubixGears — Home/);
-  assert.match(brand, /Cubix<span className="text-\[#2563eb\]">Gears<\/span>/);
+  assert.match(brand, /CubixGear — Home/);
+  assert.match(brand, /Cubix<span className="text-\[#2563eb\]">Gear<\/span>/);
   assert.doesNotMatch(brand, />CG<\/span>|brand-symbol/);
   assert.doesNotMatch(css, /\.brand-symbol(?:-inner)?\s*\{/);
   assert.match(header, /<Brand onNavigate=\{closeMenu\} \/>/);

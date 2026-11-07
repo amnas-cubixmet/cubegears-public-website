@@ -15,18 +15,18 @@ export const metadata: Metadata = {
     template: "%s | CubeGears",
   },
   description:
-    "Manage workshop customers, vehicles, job cards, inventory, invoices, staff and reports in one connected platform.",
+    "Manage car and motorcycle workshop customers, vehicles, job cards, inventory, invoices, staff and reports in one connected platform.",
   applicationName: "CubeGears",
   robots: { index: true, follow: true },
   openGraph: {
     type: "website",
     siteName: "CubeGears",
     title: "CubeGears | Workshop Management Software",
-    description: "A connected platform for modern vehicle service workshops.",
+    description: "A connected platform for modern car and motorcycle service workshops.",
   },
 };
 
-export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#071427" };
+export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#151618" };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

@@ -88,7 +88,7 @@ export function PublicHeader() {
           <button
             ref={menuButtonRef}
             type="button"
-            className="focus-ring inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#e4e4e4] bg-white text-[#252729] transition hover:border-red-200 hover:bg-red-50 xl:hidden"
+            className="focus-ring inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#e4e4e4] bg-white text-[#252729] transition hover:border-blue-200 hover:bg-blue-50 xl:hidden"
             aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
@@ -127,10 +127,10 @@ export function PublicHeader() {
               aria-current={current(href) ? "page" : undefined}
               onClick={closeMenu}
               className={"focus-ring flex min-h-12 items-center justify-between rounded-xl px-4 py-3 text-[16px] font-semibold transition " +
-                (current(href) ? "bg-red-50 text-red-700" : "text-slate-700 hover:bg-slate-50")}
+                (current(href) ? "bg-blue-50 text-red-700" : "text-slate-700 hover:bg-slate-50")}
             >
               <span>{label}</span>
-              {current(href) ? <span className="text-xs font-extrabold text-[#bd1725]">Current</span> : null}
+              {current(href) ? <span className="text-xs font-extrabold text-[#245bd5]">Current</span> : null}
             </Link>
           ))}
           <Link

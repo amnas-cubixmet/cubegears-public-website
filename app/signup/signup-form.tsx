@@ -30,10 +30,9 @@ const countryCodes = [
   { code: "+973", name: "Bahrain", digits: 8 },
 ] as const;
 
-const fieldClass =
-  "mt-2 h-12 w-full rounded-xl border border-slate-300 bg-white px-4 text-[16px] text-slate-950 outline-none transition placeholder:text-slate-400 hover:border-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-100";
-const phoneFieldClass = fieldClass.replace("mt-2 ", "") + " min-w-0 flex-1";
-const labelClass = "text-[14px] font-bold text-slate-800";
+const fieldClass = "signup-input mt-2";
+const phoneFieldClass = "signup-input min-w-0 flex-1";
+const labelClass = "signup-label";
 
 export default function SignupForm() {
   const router = useRouter();
@@ -102,7 +101,7 @@ export default function SignupForm() {
         <label className={labelClass} htmlFor="workshopName">Workshop name <span className="text-red-600">*</span></label>
         <input id="workshopName" name="workshopName" className={fieldClass} placeholder="Example Auto Care" autoComplete="organization" maxLength={150} minLength={2} value={form.workshopName} onChange={(e) => setField("workshopName", e.target.value)} required />
       </div>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
         <div>
           <label className={labelClass} htmlFor="ownerName">Owner name <span className="text-red-600">*</span></label>
           <input id="ownerName" name="ownerName" className={fieldClass} placeholder="Full name" autoComplete="name" maxLength={120} minLength={2} value={form.ownerName} onChange={(e) => setField("ownerName", e.target.value)} required />
@@ -121,7 +120,7 @@ export default function SignupForm() {
                 setForm((current) => ({ ...current, countryCode: e.target.value, mobile: "" }));
                 setError("");
               }}
-              className="h-12 w-[106px] shrink-0 rounded-xl border border-slate-300 bg-white px-2 text-[14px] font-semibold text-slate-900 outline-none transition hover:border-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-100 sm:w-[110px]"
+              className="signup-input signup-country text-[13px] font-semibold"
             >
               {countryCodes.map((country) => (
                 <option key={country.code} value={country.code}>{country.code} {country.name}</option>
@@ -148,10 +147,9 @@ export default function SignupForm() {
         <label className={labelClass} htmlFor="email">Email address <span className="text-red-600">*</span></label>
         <input id="email" name="email" className={fieldClass} placeholder="owner@workshop.com" type="email" autoComplete="email" maxLength={254} value={form.email} onChange={(e) => setField("email", e.target.value)} required />
       </div>
-      {error ? <div id="signup-error" role="alert" aria-live="assertive" className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-[14px] font-semibold leading-6 text-red-800">{error}</div> : null}
+      {error ? <div id="signup-error" role="alert" aria-live="assertive" className="signup-error">{error}</div> : null}
       <button type="submit" disabled={loading} aria-describedby={error ? "signup-error" : undefined} className="button-primary focus-ring flex w-full !text-[16px] disabled:cursor-not-allowed disabled:opacity-60">
         {loading ? "Creating your workshop…" : "Create workshop account"}
-        {!loading && <span aria-hidden="true">↗</span>}
       </button>
     </form>
   );

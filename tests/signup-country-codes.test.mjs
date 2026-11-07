@@ -20,3 +20,12 @@ test("signup sends an international mobile number to the existing API", () => {
   assert.match(form, /await createWorkshopAccount\(\{/);
   assert.match(form, /\s+mobile,\s*/);
 });
+
+test("mobile input enforces the selected country's digit limit while typing and pasting", () => {
+  assert.match(form, /maxLength=\{selectedCountry\.digits\}/);
+  assert.ok(form.includes('pattern={`[0-9]{${selectedCountry.digits}}`}'));
+  assert.match(form, /\.replace\(\/\\D\/g, ""\)\.slice\(0, selectedCountry\.digits\)/);
+  assert.ok(form.includes('placeholder={`${selectedCountry.digits}-digit number`}'));
+  assert.match(form, /countryCode: e\.target\.value, mobile: ""/);
+  assert.doesNotMatch(form, /maxLength=\{15\}|mobile-help/);
+});

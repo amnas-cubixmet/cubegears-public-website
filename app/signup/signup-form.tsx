@@ -9,6 +9,7 @@ type FormState = {
   ownerName: string;
   mobile: string;
   email: string;
+  whatsappConsent: boolean;
   terms: boolean;
 };
 
@@ -17,6 +18,7 @@ const initialForm: FormState = {
   ownerName: "",
   mobile: "",
   email: "",
+  whatsappConsent: false,
   terms: false,
 };
 
@@ -56,8 +58,12 @@ export default function SignupForm() {
       setError("Enter a valid mobile number (10–15 digits).");
       return;
     }
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError("Enter a valid email address.");
+      return;
+    }
+    if (!email && !form.whatsappConsent) {
+      setError("Enter an email address or consent to receive the setup link by WhatsApp.");
       return;
     }
     if (!form.terms) {
@@ -72,6 +78,7 @@ export default function SignupForm() {
         ownerName,
         mobile,
         email,
+        whatsappConsent: form.whatsappConsent,
       });
       router.push("/signup/success");
     } catch (err) {
@@ -99,12 +106,16 @@ export default function SignupForm() {
         </div>
       </div>
       <div>
-        <label className={labelClass} htmlFor="email">Email address <span className="text-red-600">*</span></label>
-        <input id="email" name="email" className={fieldClass} placeholder="owner@workshop.com" type="email" autoComplete="email" maxLength={254} value={form.email} onChange={(e) => setField("email", e.target.value)} required />
+        <label className={labelClass} htmlFor="email">Email address <span className="text-slate-500">(optional if WhatsApp is selected)</span></label>
+        <input id="email" name="email" className={fieldClass} placeholder="owner@workshop.com" type="email" autoComplete="email" maxLength={254} value={form.email} onChange={(e) => setField("email", e.target.value)} />
       </div>
       <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-4 text-[14px] leading-6 text-slate-700">
         <input className="mt-1 h-4 w-4 shrink-0 accent-blue-600" type="checkbox" checked={form.terms} onChange={(e) => setField("terms", e.target.checked)} required />
         <span>I confirm I am authorised to create this workshop account and can receive account setup email.</span>
+      </label>
+      <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-4 text-[14px] leading-6 text-slate-700">
+        <input className="mt-1 h-4 w-4 shrink-0 accent-blue-600" type="checkbox" checked={form.whatsappConsent} onChange={(e) => setField("whatsappConsent", e.target.checked)} />
+        <span>I consent to receive the secure password setup link through WhatsApp. This is required when no email address is provided.</span>
       </label>
       {error ? <div id="signup-error" role="alert" aria-live="assertive" className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-[14px] font-semibold leading-6 text-red-800">{error}</div> : null}
       <button type="submit" disabled={loading} aria-describedby={error ? "signup-error" : undefined} className="button-primary focus-ring flex w-full !text-[16px] disabled:cursor-not-allowed disabled:opacity-60">

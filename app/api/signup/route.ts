@@ -4,7 +4,8 @@ type SignupRequest = {
   workshopName: string;
   ownerName: string;
   mobile: string;
-  email: string;
+  email?: string;
+  whatsappConsent?: boolean;
 };
 
 function getBackendUrl(): string | null {
@@ -23,11 +24,16 @@ function getBackendUrl(): string | null {
 function isValidPayload(value: unknown): value is SignupRequest {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;
   const p = value as Record<string, unknown>;
+  const email = typeof p.email === "string" ? p.email.trim() : "";
+  const whatsappConsent = p.whatsappConsent === true;
   return (
     typeof p.workshopName === "string" && p.workshopName.trim().length >= 2 && p.workshopName.length <= 150 &&
     typeof p.ownerName === "string" && p.ownerName.trim().length >= 2 && p.ownerName.length <= 120 &&
     typeof p.mobile === "string" && /^\+?\d{10,15}$/.test(p.mobile.replace(/[\s()-]/g, "")) &&
-    typeof p.email === "string" && p.email.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email.trim())
+    (p.email === undefined || (typeof p.email === "string" && p.email.length <= 254)) &&
+    (!email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) &&
+    (p.whatsappConsent === undefined || typeof p.whatsappConsent === "boolean") &&
+    Boolean(email || whatsappConsent)
   );
 }
 
@@ -60,7 +66,8 @@ export async function POST(request: Request) {
     workshop_name: payload.workshopName.trim(),
     owner_name: payload.ownerName.trim(),
     mobile: payload.mobile.replace(/[\s()-]/g, ""),
-    email: payload.email.trim().toLowerCase(),
+    email: (payload.email || "").trim().toLowerCase(),
+    whatsapp_consent: payload.whatsappConsent === true,
   };
 
   try {

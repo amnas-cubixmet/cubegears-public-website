@@ -22,7 +22,8 @@ test("submit normalizes contact details and API proxy repeats safe normalization
   assert.match(form, /workshopName\.length < 2/);
   assert.match(form, /ownerName\.length < 2/);
   assert.match(route, /mobile: payload\.mobile\.replace\(\/\[\\s\(\)-\]\/g, ""\)/);
-  assert.match(route, /email: payload\.email\.trim\(\)\.toLowerCase\(\)/);
+  assert.ok(route.includes('email: (payload.email || "").trim().toLowerCase(),'));
+  assert.ok(route.includes('whatsapp_consent: payload.whatsappConsent === true,'));
   assert.doesNotMatch(route, /mobile: payload\.mobile\.trim\(\)/);
 });
 
@@ -44,4 +45,15 @@ test("Django 400 email and other field errors are shown in context", () => {
   assert.match(client, /throw new Error\(getApiErrorMessage\(data, response\.status\)\)/);
   assert.match(route, /return NextResponse\.json\(data, \{ status: response\.status \}\)/);
   assert.match(form, /router\.push\("\/signup\/success"\)/);
+});
+
+
+test("owner signup supports email or explicit WhatsApp setup-link consent", () => {
+  assert.match(route, /email\?: string/);
+  assert.match(route, /whatsappConsent\?: boolean/);
+  assert.match(route, /Boolean\(email \|\| whatsappConsent\)/);
+  assert.match(route, /whatsapp_consent: payload\.whatsappConsent === true/);
+  assert.match(form, /if \(!email && !form\.whatsappConsent\)/);
+  assert.match(form, /checked=\{form\.whatsappConsent\}/);
+  assert.match(client, /whatsappConsent: boolean/);
 });

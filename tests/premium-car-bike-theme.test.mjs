@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, statSync } from "node:fs";
 
 const read = (path) => readFileSync(new URL("../" + path, import.meta.url), "utf8");
 const css = read("app/globals.css");
@@ -32,9 +32,18 @@ test("premium car-bike theme applies consistently across all public routes", () 
 });
 
 test("real automotive and motorcycle photos are provided with descriptions", () => {
-  assert.match(photos, /photos\/11890964\/pexels-photo-11890964/);
-  assert.match(photos, /photos\/8550666\/pexels-photo-8550666/);
-  assert.match(photos, /photos\/8985456\/pexels-photo-8985456/);
+  assert.match(photos, /\/images\/bike-repair\.webp/);
+  assert.match(photos, /\/images\/bike-team\.webp/);
+  assert.match(photos, /\/images\/car-service\.webp/);
+  assert.doesNotMatch(photos, /images\.pexels\.com|https:\/\//);
+  assert.doesNotMatch(css, /images\.pexels\.com/);
+  for (const image of [
+    "car-workshop", "car-service", "car-team", "car-engine", "car-inspection",
+    "garage-interior", "bike-repair", "bike-team", "bike-service",
+  ]) {
+    const stat = statSync(new URL("../public/images/" + image + ".webp", import.meta.url));
+    assert.ok(stat.size > 12_000, "Missing or invalid bundled image: " + image);
+  }
   assert.match(photos, /alt=\{asset\.alt\}/);
   assert.match(home, /photo="bike"/);
   assert.match(home, /photo="bikeTeam"/);

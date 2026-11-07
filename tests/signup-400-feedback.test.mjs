@@ -17,7 +17,8 @@ test("signup proxies only POST and retains backend URL config", () => {
 });
 
 test("submit normalizes contact details and API proxy repeats safe normalization", () => {
-  assert.match(form, /const mobile = form\.mobile\.replace\(\/\[\\s\(\)-\]\/g, ""\)/);
+  assert.match(form, /const localMobile = form\.mobile\.replace/);
+  assert.ok(form.includes("const mobile = `${form.countryCode}${localMobile}`;"));
   assert.match(form, /const email = form\.email\.trim\(\)\.toLowerCase\(\)/);
   assert.match(form, /workshopName\.length < 2/);
   assert.match(form, /ownerName\.length < 2/);

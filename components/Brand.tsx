@@ -7,7 +7,7 @@ export function Brand({ light = false, onNavigate }: { light?: boolean; onNaviga
         <span className="brand-symbol-inner">CG</span>
       </span>
       <span className={light ? "brand-name text-white" : "brand-name text-[#16191c]"}>
-        Cube<span className="text-[#d11d2a]">Gears</span>
+        Cube<span className="text-[#2563eb]">Gears</span>
         <span className="brand-descriptor">WORKSHOP SOFTWARE</span>
       </span>
     </Link>

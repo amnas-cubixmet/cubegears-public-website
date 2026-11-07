@@ -39,7 +39,7 @@ export default function SignupPage() {
               <div className="mt-9 border-t border-white/15 pt-6">
                 <p className="text-[12px] font-bold tracking-[.12em] text-blue-200">WHAT HAPPENS NEXT</p>
                 <p className="mt-2 text-[14px] leading-7 text-slate-300">After a successful registration, check your email for the secure password setup link.</p>
-                <Link href="/how-it-works" className="focus-ring mt-4 inline-flex items-center gap-2 rounded-lg py-2 text-[14px] font-bold text-white underline decoration-blue-300 underline-offset-4 hover:text-blue-200">Learn how it works <span aria-hidden="true">→</span></Link>
+                <Link href="/how-it-works" className="focus-ring mt-4 inline-flex items-center rounded-lg py-2 text-[14px] font-bold text-white underline decoration-blue-300 underline-offset-4 hover:text-blue-200">Learn how it works</Link>
               </div>
             </div>
           </aside>
@@ -58,7 +58,7 @@ export default function SignupPage() {
                 href="https://cubegears-company-panel-three.vercel.app/login"
                 className="focus-ring inline-flex min-h-11 items-center rounded-md px-1 font-bold text-blue-700 underline-offset-4 transition hover:text-blue-800 hover:underline"
               >
-                Sign in <span aria-hidden="true">→</span>
+                Sign in
               </a>
             </p>
             <p className="mt-6 border-t border-slate-100 pt-5 text-[13px] leading-6 text-slate-500">Your details are used to create your workshop account. Never share your password through a signup request.</p>

@@ -10,7 +10,7 @@ const signup = read("app/signup/page.tsx");
 const form = read("app/signup/signup-form.tsx");
 
 test("premium car-bike theme applies consistently across all public routes", () => {
-  assert.match(css, /--brand:\s*#ce1b2a/);
+  assert.match(css, /--brand:\s*#2563eb/);
   assert.match(css, /site-mobile-panel/);
   assert.match(css, /max-height:\s*calc\(100dvh\s*-\s*76px\)/);
   assert.match(css, /prefers-reduced-motion:\s*reduce/);
@@ -51,10 +51,9 @@ test("real automotive and motorcycle photos are provided with descriptions", () 
   assert.match(read("app/for-workshops/page.tsx"), /Motorcycle & scooter service/);
 });
 
-test("signup has two visual sections and retains the working validated API form", () => {
-  assert.match(signup, /signup-grid/);
-  assert.match(signup, /signup-story/);
+test("signup has a compact image-free form and retains validated registration", () => {
   assert.match(signup, /signup-card/);
+  assert.doesNotMatch(signup, /WorkshopPhoto|signup-grid|signup-story|<Image|<img/i);
   assert.match(signup, /<SignupForm\s*\/>/);
   assert.match(signup, /Already have a workshop account\?/);
   assert.match(form, /createWorkshopAccount\(\{/);

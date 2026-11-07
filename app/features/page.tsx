@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 const groups = [
   { number: "01", title: "Customers & vehicles", desc: "See customer profiles, vehicle details and service history together each time a vehicle returns.", items: ["Customer records", "Vehicle profiles", "Service history", "Balances"] },
-  { number: "02", title: "Service & job cards", desc: "Give each job a clear path from initial inspection through estimates, repair work and delivery.", items: ["Job cards", "Inspections", "Estimates", "Quality checks"] },
+  { number: "02", title: "Service & job cards", desc: "Give car and motorcycle service jobs a clear path from inspection through estimates, repair and delivery.", items: ["Job cards", "Inspections", "Estimates", "Quality checks"] },
   { number: "03", title: "Stock & inventory", desc: "Keep track of the parts and consumables your team uses during daily service operations.", items: ["Parts catalogue", "Stock movements", "Suppliers", "Stock visibility"] },
   { number: "04", title: "Invoices & expenses", desc: "Make the handoff from parts and labour to estimates, invoices and payment records easier.", items: ["Estimates", "Invoices", "Payment records", "Expenses"] },
   { number: "05", title: "Staff & attendance", desc: "Keep your people, access roles and attendance information in a shared workspace.", items: ["Staff", "Roles", "Attendance", "Leave & shifts"] },

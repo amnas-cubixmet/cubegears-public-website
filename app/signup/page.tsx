@@ -5,64 +5,31 @@ import { PublicFooter } from "@/components/PublicFooter";
 import SignupForm from "./signup-form";
 
 export const metadata: Metadata = {
-  title: "Create Workshop Account",
-  description: "Set up your workshop and owner account in CubeGears.",
+  title: "Get Started | CubeGears",
+  description: "Create your car wash, detailing or automotive workshop management account.",
   robots: { index: false, follow: false },
 };
-
-const benefits = [
-  "Customers, vehicles and service history in one place",
-  "Job cards from check-in to delivery",
-  "Connected stock, estimates and invoices",
-  "Access roles for your workshop team",
-];
 
 export default function SignupPage() {
   return (
     <>
       <PublicHeader />
-      <main id="main-content" className="min-h-[calc(100svh-76px)] bg-[#f4f7fc]">
-        <section className="page-shell grid items-start gap-6 py-8 sm:py-14 lg:grid-cols-[.86fr_1.14fr] lg:gap-10">
-          <aside className="marketing-hero-dark relative overflow-hidden rounded-[24px] p-7 text-white sm:p-10 lg:sticky lg:top-24">
-            <div className="pointer-events-none absolute -right-20 -top-12 h-60 w-60 rounded-full bg-blue-500/25 blur-3xl" aria-hidden="true" />
-            <div className="relative">
-              <p className="eyebrow !text-blue-300">YOUR NEW WORKSPACE</p>
-              <h1 className="marketing-text-balance mt-6 text-[clamp(33px,4vw,49px)] font-extrabold leading-[1.1] tracking-[-.055em]">Build a better organised workshop.</h1>
-              <p className="mt-5 text-[16px] leading-8 text-slate-300">Create a workspace for your workshop and bring daily operations together.</p>
-              <ul className="mt-8 space-y-4">
-                {benefits.map((benefit) => (
-                  <li key={benefit} className="flex items-start gap-3 text-[14px] leading-6 text-slate-200 sm:text-[15px]">
-                    <span aria-hidden="true" className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-blue-600 text-xs font-bold text-white">✓</span>{benefit}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-9 border-t border-white/15 pt-6">
-                <p className="text-[12px] font-bold tracking-[.12em] text-blue-200">WHAT HAPPENS NEXT</p>
-                <p className="mt-2 text-[14px] leading-7 text-slate-300">After a successful registration, check your email for the secure password setup link.</p>
-                <Link href="/how-it-works" className="focus-ring mt-4 inline-flex items-center rounded-lg py-2 text-[14px] font-bold text-white underline decoration-blue-300 underline-offset-4 hover:text-blue-200">Learn how it works</Link>
-              </div>
+      <main id="main-content" className="min-h-[calc(100svh-76px)] bg-[#f5f8fd]">
+        <section className="mx-auto w-full max-w-[690px] px-4 py-7 sm:px-6 sm:py-14">
+          <div className="min-w-0 rounded-[18px] border border-slate-200 bg-white px-5 py-7 shadow-[0_20px_65px_rgba(13,35,76,.07)] sm:rounded-[26px] sm:px-10 sm:py-11">
+            <p className="text-center text-[12px] font-bold uppercase tracking-[.16em] text-blue-700">CubeGears · Workshop Management</p>
+            <h1 className="mt-4 text-center text-[clamp(30px,5vw,42px)] font-extrabold leading-tight tracking-[-.045em] text-[#10233e]">Get started with CubeGears</h1>
+            <p className="mx-auto mt-3 max-w-md text-center text-[15px] leading-7 text-slate-600">Set up your car wash, detailing studio or automotive workshop in one connected workspace.</p>
+            <div className="mt-7 border-t border-slate-100 pt-6 sm:mt-9 sm:pt-8">
+              <SignupForm />
             </div>
-          </aside>
-
-          <div className="marketing-card min-w-0 p-6 sm:p-9">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="eyebrow">WORKSHOP SIGN UP</p>
-              <span className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-[12px] font-bold text-blue-700">Step 1 · Workshop details</span>
-            </div>
-            <h2 className="mt-5 text-[30px] font-extrabold tracking-[-.045em] text-slate-950 sm:text-[36px]">Create your account</h2>
-            <p className="mt-3 text-[15px] leading-7 text-slate-600">Enter your workshop and owner contact details to begin registration. A password setup link is sent after successful registration.</p>
-            <SignupForm />
-            <p className="mt-5 text-center text-[14px] leading-6 text-slate-600">
-              Already have a workshop account?{" "}
-              <a
-                href="https://cubegears-company-panel-three.vercel.app/login"
-                className="focus-ring inline-flex min-h-11 items-center rounded-md px-1 font-bold text-blue-700 underline-offset-4 transition hover:text-blue-800 hover:underline"
-              >
-                Sign in
-              </a>
+            <p className="mt-6 text-center text-[14px] leading-6 text-slate-600">
+              Already have an account?{" "}
+              <a href="https://cubegears-company-panel-three.vercel.app/login" className="focus-ring inline-flex min-h-11 items-center font-bold text-blue-700 underline-offset-4 hover:underline">Log in</a>
             </p>
-            <p className="mt-6 border-t border-slate-100 pt-5 text-[13px] leading-6 text-slate-500">Your details are used to create your workshop account. Never share your password through a signup request.</p>
+            <p className="mt-4 text-center text-[12px] leading-6 text-slate-500">After registration, follow the secure password setup link sent to your email.</p>
           </div>
+          <p className="mt-6 text-center text-[13px] text-slate-500">Want to learn more? <Link href="/features" className="font-semibold text-blue-700 hover:underline">Explore features</Link></p>
         </section>
       </main>
       <PublicFooter />

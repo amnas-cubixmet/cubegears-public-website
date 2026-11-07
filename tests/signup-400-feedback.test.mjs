@@ -49,12 +49,16 @@ test("Django 400 email and other field errors are shown in context", () => {
 });
 
 
-test("owner signup supports email or explicit WhatsApp setup-link consent", () => {
+test("owner signup has no consent checkbox rows and keeps explicit WhatsApp opt-in", () => {
   assert.match(route, /email\?: string/);
   assert.match(route, /whatsappConsent\?: boolean/);
   assert.match(route, /Boolean\(email \|\| whatsappConsent\)/);
   assert.match(route, /whatsapp_consent: payload\.whatsappConsent === true/);
-  assert.match(form, /if \(!email && !form\.whatsappConsent\)/);
-  assert.match(form, /checked=\{form\.whatsappConsent\}/);
+  assert.match(form, /useState<"email" \| "whatsapp">\("email"\)/);
+  assert.match(form, /Receive setup link on WhatsApp/);
+  assert.match(form, /whatsappConsent: setupChannel === "whatsapp"/);
+  assert.match(form, /setupChannel === "email" && !email/);
+  assert.doesNotMatch(form, /type="checkbox"|form\.terms|form\.whatsappConsent/);
+  assert.doesNotMatch(form, /I confirm I am authorised|I consent to receive the secure password/);
   assert.match(client, /whatsappConsent: boolean/);
 });

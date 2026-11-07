@@ -7,6 +7,7 @@ import { createWorkshopAccount } from "@/lib/api";
 type FormState = {
   workshopName: string;
   ownerName: string;
+  countryCode: string;
   mobile: string;
   email: string;
   whatsappConsent: boolean;
@@ -16,14 +17,26 @@ type FormState = {
 const initialForm: FormState = {
   workshopName: "",
   ownerName: "",
+  countryCode: "+91",
   mobile: "",
   email: "",
   whatsappConsent: false,
   terms: false,
 };
 
+const countryCodes = [
+  { code: "+91", name: "India", digits: 10 },
+  { code: "+971", name: "UAE", digits: 9 },
+  { code: "+966", name: "Saudi Arabia", digits: 9 },
+  { code: "+974", name: "Qatar", digits: 8 },
+  { code: "+968", name: "Oman", digits: 8 },
+  { code: "+965", name: "Kuwait", digits: 8 },
+  { code: "+973", name: "Bahrain", digits: 8 },
+] as const;
+
 const fieldClass =
   "mt-2 h-12 w-full rounded-xl border border-slate-300 bg-white px-4 text-[16px] text-slate-950 outline-none transition placeholder:text-slate-400 hover:border-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-100";
+const phoneFieldClass = fieldClass.replace("mt-2 ", "") + " min-w-0 flex-1";
 const labelClass = "text-[14px] font-bold text-slate-800";
 
 export default function SignupForm() {
@@ -31,6 +44,7 @@ export default function SignupForm() {
   const [form, setForm] = useState<FormState>(initialForm);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const selectedCountry = countryCodes.find((country) => country.code === form.countryCode) ?? countryCodes[0];
 
   function setField<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((current) => ({ ...current, [key]: value }));
@@ -45,7 +59,8 @@ export default function SignupForm() {
     const workshopName = form.workshopName.trim();
     const ownerName = form.ownerName.trim();
     const email = form.email.trim().toLowerCase();
-    const mobile = form.mobile.replace(/[\s()-]/g, "");
+    const localMobile = form.mobile.replace(/\D/g, "");
+    const mobile = `${form.countryCode}${localMobile}`;
     if (workshopName.length < 2) {
       setError("Workshop name must contain at least 2 characters.");
       return;
@@ -54,8 +69,8 @@ export default function SignupForm() {
       setError("Owner name must contain at least 2 characters.");
       return;
     }
-    if (!/^\+?\d{10,15}$/.test(mobile)) {
-      setError("Enter a valid mobile number (10–15 digits).");
+    if (localMobile.length !== selectedCountry.digits || !/^\+\d{10,15}$/.test(mobile)) {
+      setError(`Enter a valid ${selectedCountry.digits}-digit mobile number for ${selectedCountry.name}.`);
       return;
     }
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -102,7 +117,35 @@ export default function SignupForm() {
         </div>
         <div>
           <label className={labelClass} htmlFor="mobile">Mobile number <span className="text-red-600">*</span></label>
-          <input id="mobile" name="mobile" className={fieldClass} placeholder="+91 98765 43210" type="tel" inputMode="tel" autoComplete="tel" maxLength={22} value={form.mobile} onChange={(e) => setField("mobile", e.target.value)} required />
+          <div className="mt-2 flex min-w-0 gap-2">
+            <select
+              id="countryCode"
+              name="countryCode"
+              aria-label="Country calling code"
+              value={form.countryCode}
+              onChange={(e) => setField("countryCode", e.target.value)}
+              className="h-12 w-[132px] shrink-0 rounded-xl border border-slate-300 bg-white px-2 text-[14px] font-semibold text-slate-900 outline-none transition hover:border-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-100 sm:w-[138px]"
+            >
+              {countryCodes.map((country) => (
+                <option key={country.code} value={country.code}>{country.code} {country.name}</option>
+              ))}
+            </select>
+            <input
+              id="mobile"
+              name="mobile"
+              className={phoneFieldClass}
+              placeholder={selectedCountry.digits === 10 ? "98765 43210" : "Mobile number"}
+              type="tel"
+              inputMode="numeric"
+              autoComplete="tel-national"
+              aria-describedby="mobile-help"
+              maxLength={15}
+              value={form.mobile}
+              onChange={(e) => setField("mobile", e.target.value.replace(/\D/g, ""))}
+              required
+            />
+          </div>
+          <p id="mobile-help" className="mt-2 text-[12px] leading-5 text-slate-500">Enter the {selectedCountry.digits}-digit number without the country code.</p>
         </div>
       </div>
       <div>
@@ -111,7 +154,7 @@ export default function SignupForm() {
       </div>
       <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-4 text-[14px] leading-6 text-slate-700">
         <input className="mt-1 h-4 w-4 shrink-0 accent-blue-600" type="checkbox" checked={form.terms} onChange={(e) => setField("terms", e.target.checked)} required />
-        <span>I confirm I am authorised to create this workshop account and can receive account setup email.</span>
+        <span>I confirm I am authorised to create this workshop account and receive setup instructions through my selected contact method.</span>
       </label>
       <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-4 text-[14px] leading-6 text-slate-700">
         <input className="mt-1 h-4 w-4 shrink-0 accent-blue-600" type="checkbox" checked={form.whatsappConsent} onChange={(e) => setField("whatsappConsent", e.target.checked)} />

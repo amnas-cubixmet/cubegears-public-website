@@ -150,7 +150,7 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
 .marketing-cta {
   position: relative; overflow: hidden; padding: clamp(30px,5.5vw,65px); border-radius: 16px;
   background: linear-gradient(95deg,rgba(17,18,20,.98),rgba(17,18,20,.94) 65%,rgba(63,15,20,.79)),
-  url("https://images.pexels.com/photos/15489247/pexels-photo-15489247.jpeg?auto=compress&cs=tinysrgb&w=1400") center/cover no-repeat;
+  url("/images/car-workshop.webp") center/cover no-repeat;
   color: #fff;
 }
 .marketing-cta::before { content: ""; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: #e52231; }

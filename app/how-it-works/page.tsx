@@ -35,9 +35,9 @@ export default function HowItWorksPage() {
       <main id="main-content" className="bg-[#f7f6f4]">
         <PageHero dark eyebrow="THE SERVICE JOURNEY" title="From check-in to handover. One connected flow." description="Give car and bike service advisors, technicians and workshop managers a shared view of what needs to happen next." image="bikeService">
           <div className="marketing-flow-dark flex flex-wrap items-center gap-3 text-[13px] font-semibold text-red-100">
-            {["Check-in", "Approve", "Repair", "Deliver"].map((step, index) => (
+            {["Check-in", "Approve", "Repair", "Deliver"].map((step) => (
               <span key={step} className="flex items-center gap-3">
-                {index > 0 ? : null}
+                
                 <span className="rounded-full border border-white/20 bg-white/10 px-4 py-2">{step}</span>
               </span>
             ))}

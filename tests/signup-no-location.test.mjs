@@ -12,7 +12,7 @@ test("public signup does not request workshop location fields", () => {
   assert.match(form, /name="countryCode"/);
   assert.doesNotMatch(form, /(?:name|id)="country"/i);
   for (const field of ["state", "city"]) {
-    const fieldName = new RegExp(\`\\b\${field}\\b\`, "i");
+    const fieldName = new RegExp(`\\b${field}\\b`, "i");
     assert.doesNotMatch(form, fieldName);
     assert.doesNotMatch(apiType, fieldName);
     assert.doesNotMatch(route, fieldName);

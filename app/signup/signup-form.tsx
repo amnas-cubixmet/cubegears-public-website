@@ -110,7 +110,7 @@ export default function SignupForm() {
         <label className={labelClass} htmlFor="workshopName">Workshop name <span className="text-red-600">*</span></label>
         <input id="workshopName" name="workshopName" className={fieldClass} placeholder="Example Auto Care" autoComplete="organization" maxLength={150} minLength={2} value={form.workshopName} onChange={(e) => setField("workshopName", e.target.value)} required />
       </div>
-      <div className="grid gap-6 sm:grid-cols-2">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
         <div>
           <label className={labelClass} htmlFor="ownerName">Owner name <span className="text-red-600">*</span></label>
           <input id="ownerName" name="ownerName" className={fieldClass} placeholder="Full name" autoComplete="name" maxLength={120} minLength={2} value={form.ownerName} onChange={(e) => setField("ownerName", e.target.value)} required />
@@ -124,7 +124,7 @@ export default function SignupForm() {
               aria-label="Country calling code"
               value={form.countryCode}
               onChange={(e) => setField("countryCode", e.target.value)}
-              className="h-12 w-[132px] shrink-0 rounded-xl border border-slate-300 bg-white px-2 text-[14px] font-semibold text-slate-900 outline-none transition hover:border-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-100 sm:w-[138px]"
+              className="h-12 w-[106px] shrink-0 rounded-xl border border-slate-300 bg-white px-2 text-[14px] font-semibold text-slate-900 outline-none transition hover:border-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-100 sm:w-[110px]"
             >
               {countryCodes.map((country) => (
                 <option key={country.code} value={country.code}>{country.code} {country.name}</option>

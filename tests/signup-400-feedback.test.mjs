@@ -22,7 +22,8 @@ test("submit normalizes contact details and API proxy repeats safe normalization
   assert.match(form, /workshopName\.length < 2/);
   assert.match(form, /ownerName\.length < 2/);
   assert.match(route, /mobile: payload\.mobile\.replace\(\/\[\\s\(\)-\]\/g, ""\)/);
-  assert.match(route, /email: payload\.email\.trim\(\)\.toLowerCase\(\)/);
+  assert.match(route, /email: \\(payload\\.email \\|\\| ""\\)\\.trim\\(\\).toLowerCase\\(\\)/);
+  assert.match(route, /whatsapp_consent: payload\\.whatsappConsent === true/);
   assert.doesNotMatch(route, /mobile: payload\.mobile\.trim\(\)/);
 });
 

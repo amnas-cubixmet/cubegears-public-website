@@ -18,7 +18,7 @@ export default function SignupPage() {
       <main id="main-content" className="signup-stage min-h-[calc(100svh-76px)]">
         <section className="page-shell py-7 sm:py-12 lg:py-16">
           <div className="signup-grid">
-            <div className="flex min-w-0 flex-col gap-4">
+            <div className="order-2 flex min-w-0 flex-col gap-4 lg:order-1">
               <WorkshopPhoto photo="bikeService" priority className="signup-story h-[360px] flex-1 lg:min-h-[580px]" caption="Car & two-wheeler service" sizes="(max-width: 1024px) 100vw, 45vw">
                 <span className="photo-label"><span className="photo-label-dot" /> CUBEGEARS · WORKSHOP SOFTWARE</span>
                 <h1 className="mt-5 max-w-md text-[clamp(32px,3.8vw,54px)] font-extrabold leading-[1.07] tracking-[-.06em]">
@@ -38,7 +38,7 @@ export default function SignupPage() {
               </div>
             </div>
 
-            <div className="signup-card min-w-0">
+            <div className="signup-card order-1 min-w-0 lg:order-2">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <p className="eyebrow">WORKSHOP SIGN UP</p>
                 <span className="rounded-md bg-[#fff0f1] px-3 py-1.5 text-[11px] font-extrabold text-[#ba1625]">STEP 01 · WORKSHOP DETAILS</span>

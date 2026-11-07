@@ -15,13 +15,13 @@ export default function SignupSuccessPage() {
             <span className="mx-auto grid h-20 w-20 place-items-center rounded-full border border-emerald-100 bg-emerald-50 text-4xl font-black text-emerald-600" aria-hidden="true">✓</span>
             <p className="eyebrow mt-8 justify-center">REGISTRATION SUBMITTED</p>
             <h1 className="marketing-text-balance mx-auto mt-4 text-[clamp(32px,4vw,46px)] font-extrabold leading-[1.12] tracking-[-.055em] text-slate-950">Check your inbox for the next step.</h1>
-            <p className="mx-auto mt-5 max-w-lg text-[16px] leading-8 text-slate-600">If your registration succeeded, use the secure password setup email sent to your account address. You may also need to check your spam or promotions folder.</p>
+            <p className="mx-auto mt-5 max-w-lg text-[16px] leading-8 text-slate-600">If your registration succeeded, use the secure password setup link sent to the email address or WhatsApp contact you provided. Email messages may appear in spam or promotions.</p>
             <div className="mt-8 rounded-2xl border border-blue-100 bg-[#f2f7ff] p-5 text-left sm:p-6">
               <p className="text-[12px] font-extrabold tracking-[.12em] text-blue-700">WHAT TO DO NEXT</p>
               <ol className="mt-4 space-y-3 text-[14px] leading-6 text-slate-700">
-                <li className="flex gap-3"><span className="font-extrabold text-blue-700">01</span> Open the account setup email.</li>
+                <li className="flex gap-3"><span className="font-extrabold text-blue-700">01</span> Open the secure setup message sent to your email or WhatsApp.</li>
                 <li className="flex gap-3"><span className="font-extrabold text-blue-700">02</span> Follow the secure link and create your password.</li>
-                <li className="flex gap-3"><span className="font-extrabold text-blue-700">03</span> Sign in through the CubeGears Company Panel.</li>
+                <li className="flex gap-3"><span className="font-extrabold text-blue-700">03</span> Sign in through the CubeGears Company Panel and complete workshop setup.</li>
               </ol>
             </div>
             <div className="responsive-actions mt-8 justify-center">

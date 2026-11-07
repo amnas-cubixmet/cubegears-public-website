@@ -19,7 +19,7 @@ test("signup proxies only POST and retains backend URL config", () => {
 test("submit normalizes contact details and API proxy repeats safe normalization", () => {
   assert.match(form, /const localMobile = form\.mobile\.replace/);
   assert.ok(form.includes("const mobile = `${form.countryCode}${localMobile}`;"));
-  assert.match(form, /const email = setupChannel === "email" \? form\.email\.trim\(\)\.toLowerCase\(\) : ""/);
+  assert.match(form, /const email = form\.email\.trim\(\)\.toLowerCase\(\)/);
   assert.match(form, /workshopName\.length < 2/);
   assert.match(form, /ownerName\.length < 2/);
   assert.match(route, /mobile: payload\.mobile\.replace\(\/\[\\s\(\)-\]\/g, ""\)/);
@@ -49,16 +49,15 @@ test("Django 400 email and other field errors are shown in context", () => {
 });
 
 
-test("owner signup has no consent checkbox rows and keeps explicit WhatsApp opt-in", () => {
+test("owner signup uses email without WhatsApp choice or consent rows", () => {
   assert.match(route, /email\?: string/);
   assert.match(route, /whatsappConsent\?: boolean/);
   assert.match(route, /Boolean\(email \|\| whatsappConsent\)/);
   assert.match(route, /whatsapp_consent: payload\.whatsappConsent === true/);
-  assert.match(form, /useState<"email" \| "whatsapp">\("email"\)/);
-  assert.match(form, /Receive setup link on WhatsApp/);
-  assert.match(form, /whatsappConsent: setupChannel === "whatsapp"/);
-  assert.match(form, /setupChannel === "email" && !email/);
-  assert.doesNotMatch(form, /type="checkbox"|form\.terms|form\.whatsappConsent/);
+  assert.match(form, /if \(!email\)/);
+  assert.match(form, /whatsappConsent: false/);
+  assert.match(form, /htmlFor="email"/);
+  assert.doesNotMatch(form, /setupChannel|Receive setup link on WhatsApp|type="checkbox"/);
   assert.doesNotMatch(form, /I confirm I am authorised|I consent to receive the secure password/);
   assert.match(client, /whatsappConsent: boolean/);
 });

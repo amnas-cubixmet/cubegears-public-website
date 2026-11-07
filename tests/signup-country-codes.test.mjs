@@ -10,7 +10,7 @@ test("signup offers India and GCC country codes beside the local number", () => 
   }
   assert.match(form, /name="countryCode"/);
   assert.match(form, /autoComplete="tel-national"/);
-  assert.match(form, /aria-describedby="mobile-help"/);
+  assert.doesNotMatch(form, /mobile-help|Enter the .*number without the country code/);
   assert.match(form, /value=\{form\.mobile\}/);
 });
 

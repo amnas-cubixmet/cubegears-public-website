@@ -40,7 +40,6 @@ export default function SignupForm() {
   const [form, setForm] = useState<FormState>(initialForm);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [setupChannel, setSetupChannel] = useState<"email" | "whatsapp">("email");
   const selectedCountry = countryCodes.find((country) => country.code === form.countryCode) ?? countryCodes[0];
 
   function setField<K extends keyof FormState>(key: K, value: FormState[K]) {
@@ -55,7 +54,7 @@ export default function SignupForm() {
 
     const workshopName = form.workshopName.trim();
     const ownerName = form.ownerName.trim();
-    const email = setupChannel === "email" ? form.email.trim().toLowerCase() : "";
+    const email = form.email.trim().toLowerCase();
     const localMobile = form.mobile.replace(/\D/g, "");
     const mobile = `${form.countryCode}${localMobile}`;
     if (workshopName.length < 2) {
@@ -70,8 +69,8 @@ export default function SignupForm() {
       setError(`Enter a valid ${selectedCountry.digits}-digit mobile number for ${selectedCountry.name}.`);
       return;
     }
-    if (setupChannel === "email" && !email) {
-      setError("Enter an email address, or choose WhatsApp to receive your setup link.");
+    if (!email) {
+      setError("Enter your email address to receive the password setup link.");
       return;
     }
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -86,7 +85,7 @@ export default function SignupForm() {
         ownerName,
         mobile,
         email,
-        whatsappConsent: setupChannel === "whatsapp",
+        whatsappConsent: false,
       });
       router.push("/signup/success");
     } catch (err) {
@@ -131,39 +130,17 @@ export default function SignupForm() {
               type="tel"
               inputMode="numeric"
               autoComplete="tel-national"
-              aria-describedby="mobile-help"
               maxLength={15}
               value={form.mobile}
               onChange={(e) => setField("mobile", e.target.value.replace(/\D/g, ""))}
               required
             />
           </div>
-          <p id="mobile-help" className="mt-2 text-[12px] leading-5 text-slate-500">Enter the {selectedCountry.digits}-digit number without the country code.</p>
         </div>
       </div>
       <div>
-        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-          {setupChannel === "email"
-            ? <label className={labelClass} htmlFor="email">Email address <span className="text-red-600">*</span></label>
-            : <span className={labelClass}>Password setup via WhatsApp</span>}
-          <button
-            type="button"
-            className="focus-ring rounded-md px-1 py-2 text-[13px] font-semibold text-blue-700 hover:underline"
-            onClick={() => {
-              setSetupChannel((current) => current === "email" ? "whatsapp" : "email");
-              setError("");
-            }}
-          >
-            {setupChannel === "email" ? "Receive setup link on WhatsApp" : "Use email instead"}
-          </button>
-        </div>
-        {setupChannel === "email" ? (
-          <input id="email" name="email" className={fieldClass} placeholder="owner@workshop.com" type="email" autoComplete="email" maxLength={254} value={form.email} onChange={(e) => setField("email", e.target.value)} required />
-        ) : (
-          <p className="mt-2 text-[13px] leading-6 text-slate-600">
-            You have chosen to receive your account setup link via WhatsApp at the mobile number above.
-          </p>
-        )}
+        <label className={labelClass} htmlFor="email">Email address <span className="text-red-600">*</span></label>
+        <input id="email" name="email" className={fieldClass} placeholder="owner@workshop.com" type="email" autoComplete="email" maxLength={254} value={form.email} onChange={(e) => setField("email", e.target.value)} required />
       </div>
       {error ? <div id="signup-error" role="alert" aria-live="assertive" className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-[14px] font-semibold leading-6 text-red-800">{error}</div> : null}
       <button type="submit" disabled={loading} aria-describedby={error ? "signup-error" : undefined} className="button-primary focus-ring flex w-full !text-[16px] disabled:cursor-not-allowed disabled:opacity-60">

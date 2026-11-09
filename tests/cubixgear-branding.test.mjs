@@ -30,13 +30,16 @@ test("all public-facing product naming uses cubixgear, not the old brand", () =>
   assert.match(read("components/PublicFooter.tsx"), /cubixgear\. All rights reserved/);
 });
 
-test("header and footer use a text-only cubixgear brand with no CG logo block", () => {
+test("header and footer display the configured cubixgear PNG with no CG placeholder", () => {
   const brand = read("components/Brand.tsx");
   const header = read("components/PublicHeader.tsx");
   const footer = read("components/PublicFooter.tsx");
   const css = read("app/globals.css");
   assert.match(brand, /cubixgear — Home/);
   assert.match(brand, /cubix<span className="text-\[#2563eb\]">gear<\/span>/);
+  assert.match(brand, /src="\/logo\/logo\.png"/);
+  assert.match(read("app/layout.tsx"), /shortcut: "\/logo\/logo\.png"/);
+  assert.match(css, /\.brand-image/);
   assert.doesNotMatch(brand, />CG<\/span>|brand-symbol/);
   assert.doesNotMatch(css, /\.brand-symbol(?:-inner)?\s*\{/);
   assert.match(header, /<Brand onNavigate=\{closeMenu\} \/>/);

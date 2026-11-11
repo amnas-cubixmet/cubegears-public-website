@@ -16,7 +16,7 @@ Marketing and workshop onboarding website for cubixgear, built with **Next.js 16
 | /signup/success | Registration next steps |
 | /api/signup | Server-side Django signup proxy |
 
-The public website intentionally has **no login page or login CTA**. Sign-in and password setup belong to the Company Panel.
+The public website has **no internal login page**. The small Sign in link beneath the signup form directs users to the separate Company Panel login.
 
 ## Local development
 
@@ -80,6 +80,9 @@ Optional production variables:
 
     SITE_URL=https://your-real-domain.example
     CONTACT_EMAIL=your-real-support-email@example.com
+    COMPANY_PANEL_LOGIN_URL=https://your-live-company-panel.example/login
+
+Set `COMPANY_PANEL_LOGIN_URL` on the **public website deployment** to the actual live Company Panel `/login` URL, then redeploy. The signup Sign in link reads this server-side setting. If unset or invalid, it retains the prior Company Panel Vercel login address as a compatibility fallback. Only HTTPS addresses are accepted in production; localhost HTTP is allowed for local development.
 
 Never expose backend URLs or secrets in NEXT_PUBLIC_ variables. Only set a real contact email if it is monitored; otherwise, the Contact page shows product and signup links.
 

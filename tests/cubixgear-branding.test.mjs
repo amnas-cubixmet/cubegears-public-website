@@ -46,8 +46,9 @@ test("header and footer display the configured cubixgear PNG with no CG placehol
   assert.match(footer, /<Brand light \/>/);
 });
 
-test("branding does not change functional authentication destinations", () => {
-  assert.match(read("app/signup/page.tsx"), /href="https:\/\/cubegears-company-panel-three\.vercel\.app\/login"/);
+test("branding retains configurable sign-in and the working signup flow", () => {
+  assert.match(read("app/signup/page.tsx"), /process\.env\.COMPANY_PANEL_LOGIN_URL/);
+  assert.match(read("app/signup/page.tsx"), /if \(!configured\) return null;/);
   assert.match(read("app/signup/page.tsx"), /<SignupForm \/>/);
   assert.match(read("app/api/signup/route.ts"), /BACKEND_API_URL/);
 });

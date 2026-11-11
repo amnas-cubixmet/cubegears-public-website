@@ -82,7 +82,7 @@ Optional production variables:
     CONTACT_EMAIL=your-real-support-email@example.com
     COMPANY_PANEL_LOGIN_URL=https://your-live-company-panel.example/login
 
-Set `COMPANY_PANEL_LOGIN_URL` on the **public website deployment** to the actual live Company Panel `/login` URL, then redeploy. The signup Sign in link reads this server-side setting. If unset or invalid, it retains the prior Company Panel Vercel login address as a compatibility fallback. Only HTTPS addresses are accepted in production; localhost HTTP is allowed for local development.
+Set `COMPANY_PANEL_LOGIN_URL` on the **public website deployment** to the actual live Company Panel `/login` URL, then redeploy. The signup Sign in link reads this server-side setting. If the setting is missing or invalid, the Sign in link is not rendered on the signup page. Only HTTPS addresses are accepted in production; localhost HTTP is allowed for local development.
 
 Never expose backend URLs or secrets in NEXT_PUBLIC_ variables. Only set a real contact email if it is monitored; otherwise, the Contact page shows product and signup links.
 

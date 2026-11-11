@@ -10,7 +10,30 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+// Use the deployed Company Panel login URL rather than locking the sign-in
+// action to a particular Vercel deployment. Keep the previous URL as a
+// compatibility fallback until COMPANY_PANEL_LOGIN_URL is configured.
+function getCompanyPanelLoginUrl(): string {
+  const fallback = "https://cubegears-company-panel-three.vercel.app/login";
+  const configured = process.env.COMPANY_PANEL_LOGIN_URL?.trim();
+
+  if (!configured) return fallback;
+
+  try {
+    const url = new URL(configured);
+    const isLocalDevelopment = process.env.NODE_ENV !== "production"
+      && url.protocol === "http:"
+      && (url.hostname === "localhost" || url.hostname === "127.0.0.1");
+
+    return url.protocol === "https:" || isLocalDevelopment ? url.toString() : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 export default function SignupPage() {
+  const signInUrl = getCompanyPanelLoginUrl();
+
   return (
     <>
       <PublicHeader />
@@ -32,7 +55,7 @@ export default function SignupPage() {
 
             <p className="mt-6 text-center text-[14px] leading-7 text-[#586a80]">
               Already have a workshop account?{" "}
-              <a href="https://cubegears-company-panel-three.vercel.app/login" className="focus-ring inline-flex min-h-11 items-center font-extrabold text-[#245bd5] hover:underline">Sign in</a>
+              <a href={signInUrl} className="focus-ring inline-flex min-h-11 items-center font-extrabold text-[#245bd5] hover:underline">Sign in</a>
             </p>
             <p className="mt-2 text-center text-[12px] leading-6 text-[#78869a]">
               After registration, complete your password setup from the secure email link.

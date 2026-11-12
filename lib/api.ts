@@ -4,8 +4,6 @@ export type WorkshopSignupPayload = {
   mobile: string;
   email: string;
   whatsappConsent: boolean;
-  password?: string;
-  confirmPassword?: string;
 };
 
 type SignupResponse = {

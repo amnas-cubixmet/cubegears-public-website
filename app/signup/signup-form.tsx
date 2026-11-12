@@ -10,8 +10,6 @@ type FormState = {
   countryCode: string;
   mobile: string;
   email: string;
-  password: string;
-  confirmPassword: string;
 };
 
 const initialForm: FormState = {
@@ -20,8 +18,6 @@ const initialForm: FormState = {
   countryCode: "+91",
   mobile: "",
   email: "",
-  password: "",
-  confirmPassword: "",
 };
 
 const countryCodes = [
@@ -72,16 +68,8 @@ export default function SignupForm() {
       setError(`Enter a valid ${selectedCountry.digits}-digit mobile number for ${selectedCountry.name}.`);
       return;
     }
-    if (!email && !form.password) {
-      setError("Enter a recovery email or choose a password to create your account.");
-      return;
-    }
-    if (form.password && form.password.length < 8) {
-      setError("Password must be at least 8 characters.");
-      return;
-    }
-    if (form.password && form.password !== form.confirmPassword) {
-      setError("Passwords do not match.");
+    if (!email) {
+      setError("Enter your email address to receive the password setup link.");
       return;
     }
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -97,9 +85,8 @@ export default function SignupForm() {
         mobile,
         email,
         whatsappConsent: false,
-        ...(form.password ? { password: form.password, confirmPassword: form.confirmPassword } : {}),
       });
-      router.push(form.password ? "/signup/success?mode=password" : "/signup/success");
+      router.push("/signup/success");
     } catch (err) {
       const message = err instanceof Error ? err.message : "Something went wrong. Please try again.";
       setError(message);
@@ -157,22 +144,9 @@ export default function SignupForm() {
         </div>
       </div>
       <div>
-        <label className={labelClass} htmlFor="email">Email address (recommended for recovery)</label>
-        <input id="email" name="email" className={fieldClass} placeholder="owner@workshop.com" type="email" autoComplete="email" maxLength={254} value={form.email} onChange={(e) => setField("email", e.target.value)} />
+        <label className={labelClass} htmlFor="email">Email address <span className="text-red-600">*</span></label>
+        <input id="email" name="email" className={fieldClass} placeholder="owner@workshop.com" type="email" autoComplete="email" maxLength={254} value={form.email} onChange={(e) => setField("email", e.target.value)} required />
       </div>
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div>
-          <label className={labelClass} htmlFor="password">Create password (recommended)</label>
-          <input id="password" name="password" type="password" className={fieldClass} placeholder="At least 8 strong characters" autoComplete="new-password" minLength={8} maxLength={128} value={form.password} onChange={(e) => setField("password", e.target.value)} />
-        </div>
-        <div>
-          <label className={labelClass} htmlFor="confirmPassword">Confirm password</label>
-          <input id="confirmPassword" name="confirmPassword" type="password" className={fieldClass} placeholder="Repeat password" autoComplete="new-password" value={form.confirmPassword} onChange={(e) => setField("confirmPassword", e.target.value)} />
-        </div>
-      </div>
-      <p className="text-[12px] leading-5 text-slate-600">
-        Create a password now to sign in with your mobile number. If you leave it blank, a verified email delivery service is required to send a secure setup link.
-      </p>
       {error ? <div id="signup-error" role="alert" aria-live="assertive" className="signup-error">{error}</div> : null}
       <button type="submit" disabled={loading} aria-describedby={error ? "signup-error" : undefined} className="button-primary focus-ring flex w-full !text-[16px] disabled:cursor-not-allowed disabled:opacity-60">
         {loading ? "Creating your workshop…" : "Create workshop account"}

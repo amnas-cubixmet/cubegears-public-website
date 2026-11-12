@@ -30,10 +30,6 @@ export default function SignupPage() {
               <SignupForm />
             </div>
 
-            <p className="mt-6 text-center text-[14px] leading-7 text-[#586a80]">
-              Already have a workshop account?{" "}
-              <a href="https://cubegears-company-panel-three.vercel.app/login" className="focus-ring inline-flex min-h-11 items-center font-extrabold text-[#245bd5] hover:underline">Sign in</a>
-            </p>
             <p className="mt-2 text-center text-[12px] leading-6 text-[#78869a]">
               After registering with a password, sign in directly. Otherwise complete setup from your secure email link.
             </p>

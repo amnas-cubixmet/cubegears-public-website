@@ -29,7 +29,7 @@ export default async function SignupSuccessPage({ searchParams }: { searchParams
               </ol>
             </div>
             <div className="responsive-actions mt-8 justify-center">
-              <a href="https://cubegears-company-panel-three.vercel.app/login" className="button-primary focus-ring inline-flex">Sign in to cubixgear</a>
+              <a href="https://app.cubixgear.tech/login" className="button-primary focus-ring inline-flex">Sign in to cubixgear</a>
               <Link href="/contact" className="button-secondary focus-ring">Need more guidance?</Link>
             </div>
           </div>

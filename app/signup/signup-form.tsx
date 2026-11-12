@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createWorkshopAccount } from "@/lib/api";
 
@@ -10,8 +10,6 @@ type FormState = {
   countryCode: string;
   mobile: string;
   email: string;
-  password: string;
-  confirmPassword: string;
 };
 
 const initialForm: FormState = {
@@ -20,8 +18,6 @@ const initialForm: FormState = {
   countryCode: "+91",
   mobile: "",
   email: "",
-  password: "",
-  confirmPassword: "",
 };
 
 const countryCodes = [
@@ -38,21 +34,24 @@ const fieldClass = "signup-input mt-2";
 const phoneFieldClass = "signup-input min-w-0 flex-1";
 const labelClass = "signup-label";
 
-export default function SignupForm() {
+export default function SignupForm({ signInUrl }: { signInUrl: string | null }) {
   const router = useRouter();
   const [form, setForm] = useState<FormState>(initialForm);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [confirmationUnknown, setConfirmationUnknown] = useState(false);
+  const submitting = useRef(false);
   const selectedCountry = countryCodes.find((country) => country.code === form.countryCode) ?? countryCodes[0];
 
   function setField<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((current) => ({ ...current, [key]: value }));
-    setError("");
+    if (!confirmationUnknown) setError("");
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (loading) return;
+    if (submitting.current || submitted || confirmationUnknown) return;
     setError("");
 
     const workshopName = form.workshopName.trim();
@@ -72,44 +71,64 @@ export default function SignupForm() {
       setError(`Enter a valid ${selectedCountry.digits}-digit mobile number for ${selectedCountry.name}.`);
       return;
     }
-    if (!email && !form.password) {
-      setError("Enter a recovery email or choose a password to create your account.");
+    if (!email) {
+      setError("Email address is required.");
       return;
     }
-    if (form.password && form.password.length < 8) {
-      setError("Password must be at least 8 characters.");
-      return;
-    }
-    if (form.password && form.password !== form.confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setError("Enter a valid email address.");
       return;
     }
 
+    submitting.current = true;
     setLoading(true);
     try {
-      await createWorkshopAccount({
+      const result = await createWorkshopAccount({
         workshopName,
         ownerName,
         mobile,
         email,
         whatsappConsent: false,
-        ...(form.password ? { password: form.password, confirmPassword: form.confirmPassword } : {}),
       });
-      router.push(form.password ? "/signup/success?mode=password" : "/signup/success");
+      setSubmitted(true);
+      if (result.setupDelivery === "email_sent") router.push("/signup/success");
     } catch (err) {
       const message = err instanceof Error ? err.message : "Something went wrong. Please try again.";
-      setError(message);
+      if (err instanceof TypeError || /confirmation timed out|unable to reach|unreachable|unexpected response|invalid response|temporarily unavailable|HTTP 5\d\d/i.test(message)) {
+        setConfirmationUnknown(true);
+        setError("Unable to confirm registration. Check your email for a setup link or contact support before trying again.");
+      } else if (message.includes("Password setup email is unavailable.")) {
+        setError("Password setup email is temporarily unavailable. Please try again later.");
+      } else {
+        setError(message);
+      }
     } finally {
+      submitting.current = false;
       setLoading(false);
     }
   }
 
+  const signIn = signInUrl && (
+    <p className="mt-3 flex flex-wrap items-center justify-center gap-2 text-sm text-slate-600">
+      Already have an account?
+      <a href={signInUrl} className="focus-ring rounded-md border border-blue-200 px-3 py-2 font-semibold text-blue-700 hover:bg-blue-50">Sign In</a>
+    </p>
+  );
+
+  if (submitted) {
+    return (
+      <div>
+        <div role="status">
+          <h2 className="text-lg font-bold text-slate-900">Workshop account created</h2>
+          <p className="mt-2 text-sm text-slate-600">Email delivery has not been confirmed. Check your inbox and spam folder for a password setup link. Contact support if it doesn’t arrive.</p>
+        </div>
+        {signIn}
+      </div>
+    );
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-6" aria-busy={loading}>
       <div>
         <label className={labelClass} htmlFor="workshopName">Workshop name <span className="text-red-600">*</span></label>
         <input id="workshopName" name="workshopName" className={fieldClass} placeholder="Example Auto Care" autoComplete="organization" maxLength={150} minLength={2} value={form.workshopName} onChange={(e) => setField("workshopName", e.target.value)} required />
@@ -131,7 +150,7 @@ export default function SignupForm() {
                 // The national number must be entered again when changing country:
                 // a number from the previous country may have a different length.
                 setForm((current) => ({ ...current, countryCode: e.target.value, mobile: "" }));
-                setError("");
+                if (!confirmationUnknown) setError("");
               }}
               className="signup-input signup-country text-[13px] font-semibold"
             >
@@ -157,26 +176,14 @@ export default function SignupForm() {
         </div>
       </div>
       <div>
-        <label className={labelClass} htmlFor="email">Email address (recommended for recovery)</label>
-        <input id="email" name="email" className={fieldClass} placeholder="owner@workshop.com" type="email" autoComplete="email" maxLength={254} value={form.email} onChange={(e) => setField("email", e.target.value)} />
+        <label className={labelClass} htmlFor="email">Email address <span className="text-red-600">*</span></label>
+        <input id="email" name="email" className={fieldClass} placeholder="owner@workshop.com" type="email" autoComplete="email" maxLength={254} value={form.email} onChange={(e) => setField("email", e.target.value)} required />
       </div>
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div>
-          <label className={labelClass} htmlFor="password">Create password (recommended)</label>
-          <input id="password" name="password" type="password" className={fieldClass} placeholder="At least 8 strong characters" autoComplete="new-password" minLength={8} maxLength={128} value={form.password} onChange={(e) => setField("password", e.target.value)} />
-        </div>
-        <div>
-          <label className={labelClass} htmlFor="confirmPassword">Confirm password</label>
-          <input id="confirmPassword" name="confirmPassword" type="password" className={fieldClass} placeholder="Repeat password" autoComplete="new-password" value={form.confirmPassword} onChange={(e) => setField("confirmPassword", e.target.value)} />
-        </div>
-      </div>
-      <p className="text-[12px] leading-5 text-slate-600">
-        Create a password now to sign in with your mobile number. If you leave it blank, a verified email delivery service is required to send a secure setup link.
-      </p>
       {error ? <div id="signup-error" role="alert" aria-live="assertive" className="signup-error">{error}</div> : null}
-      <button type="submit" disabled={loading} aria-describedby={error ? "signup-error" : undefined} className="button-primary focus-ring flex w-full !text-[16px] disabled:cursor-not-allowed disabled:opacity-60">
-        {loading ? "Creating your workshop…" : "Create workshop account"}
+      <button type="submit" disabled={loading || confirmationUnknown} aria-describedby={error ? "signup-error" : undefined} className="button-primary focus-ring flex w-full !text-[16px] disabled:cursor-not-allowed disabled:opacity-60">
+        {loading ? "Creating your workshop…" : "Create Workshop Account"}
       </button>
+      {signIn}
     </form>
   );
 }

@@ -80,7 +80,7 @@ export function PublicHeader() {
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           {isSignupPage ? (
             <a
-              href="https://app.cubixgear.tech/login"
+              href="https://cubegears-company-panel-three.vercel.app/login"
               className="button-primary site-signin-button focus-ring"
             >
               Sign in

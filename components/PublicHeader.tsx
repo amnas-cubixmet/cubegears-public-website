@@ -78,14 +78,7 @@ export function PublicHeader() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-          {isSignupPage ? (
-            <a
-              href="https://cubegears-company-panel-three.vercel.app/login"
-              className="button-primary site-signin-button focus-ring"
-            >
-              Sign in
-            </a>
-          ) : (
+          {!isSignupPage && (
             <Link href="/signup" scroll className="button-primary focus-ring hidden sm:inline-flex">
               Get started
             </Link>

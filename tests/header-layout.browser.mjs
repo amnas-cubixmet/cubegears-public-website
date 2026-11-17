@@ -33,6 +33,7 @@ async function checkHeader(page, path, width) {
     const links = [...root.querySelectorAll('.site-header-row a, .site-header-row button')];
     const visible = links.filter(link => link.getClientRects().length);
     const mark = brand.querySelector('.brand-name');
+    const menuButton = root.querySelector('[aria-controls="mobile-navigation"]');
     return {
       fullyInViewport: visible.every(link => {
         const rect = link.getBoundingClientRect();
@@ -40,9 +41,10 @@ async function checkHeader(page, path, width) {
       }),
       brandTextOverflow: Math.max(0, mark.scrollWidth - mark.clientWidth - 1),
       separate: brand.getBoundingClientRect().right <= controls.getBoundingClientRect().left,
+      menuBeforeBrand: !menuButton.getClientRects().length || menuButton.getBoundingClientRect().right <= brand.getBoundingClientRect().left,
     };
   });
-  assert.deepEqual(layout, { fullyInViewport: true, brandTextOverflow: 0, separate: true }, message);
+  assert.deepEqual(layout, { fullyInViewport: true, brandTextOverflow: 0, separate: true, menuBeforeBrand: true }, message);
   const menu = header.getByRole('button', { name: 'Open navigation menu' });
   assert.equal(await menu.isVisible(), width < 1280, message);
   if (width >= 1280) assert.ok(await header.getByRole('navigation', { name: 'Primary navigation' }).isVisible(), message);

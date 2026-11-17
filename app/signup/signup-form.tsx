@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createWorkshopAccount, SignupApiError } from "@/lib/api";
+import { createWorkshopAccount, SignupApiError, type SignupField } from "@/lib/api";
 
 type FormState = {
   workshopName: string;
@@ -34,22 +34,39 @@ const fieldClass = "signup-input mt-2";
 const phoneFieldClass = "signup-input min-w-0 flex-1";
 const labelClass = "signup-label";
 
+const fieldOrder: SignupField[] = ["workshopName", "ownerName", "mobile", "email"];
+
 export default function SignupForm() {
   const router = useRouter();
   const [form, setForm] = useState<FormState>(initialForm);
   const [error, setError] = useState("");
-  const [mobileError, setMobileError] = useState("");
+  const [fieldError, setFieldError] = useState<{ field: SignupField; message: string } | null>(null);
   const [loading, setLoading] = useState(false);
-  const mobileInput = useRef<HTMLInputElement>(null);
+  const formElement = useRef<HTMLFormElement>(null);
+  const feedback = useRef<HTMLDivElement>(null);
   const selectedCountry = countryCodes.find((country) => country.code === form.countryCode) ?? countryCodes[0];
 
   useEffect(() => {
-    if (mobileError) mobileInput.current?.focus();
-  }, [mobileError]);
+    if (fieldError) {
+      const field = formElement.current?.elements.namedItem(fieldError.field);
+      if (field instanceof HTMLElement) field.focus();
+    } else if (error) {
+      feedback.current?.focus();
+    }
+  }, [fieldError, error]);
+
+  const fieldFeedback = (field: SignupField) => fieldError?.field === field ? {
+    "aria-invalid": true,
+    "aria-describedby": `signup-${field}-error`,
+  } : {};
+
+  const renderFieldError = (field: SignupField) => fieldError?.field === field && (
+    <p id={`signup-${field}-error`} className="signup-field-error" role="alert">{fieldError.message}</p>
+  );
 
   function setField<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((current) => ({ ...current, [key]: value }));
-    if (key === "mobile") setMobileError("");
+    if (key === fieldError?.field) setFieldError(null);
     setError("");
   }
 
@@ -57,7 +74,7 @@ export default function SignupForm() {
     event.preventDefault();
     if (loading) return;
     setError("");
-    setMobileError("");
+    setFieldError(null);
 
     const workshopName = form.workshopName.trim();
     const ownerName = form.ownerName.trim();
@@ -65,23 +82,23 @@ export default function SignupForm() {
     const localMobile = form.mobile.replace(/\D/g, "");
     const mobile = `${form.countryCode}${localMobile}`;
     if (workshopName.length < 2) {
-      setError("Workshop name must contain at least 2 characters.");
+      setFieldError({ field: "workshopName", message: "Workshop name must contain at least 2 characters." });
       return;
     }
     if (ownerName.length < 2) {
-      setError("Owner name must contain at least 2 characters.");
+      setFieldError({ field: "ownerName", message: "Owner name must contain at least 2 characters." });
       return;
     }
     if (localMobile.length !== selectedCountry.digits || !/^\+\d{10,15}$/.test(mobile)) {
-      setMobileError(`Enter a valid ${selectedCountry.digits}-digit mobile number for ${selectedCountry.name}.`);
+      setFieldError({ field: "mobile", message: `Enter a valid ${selectedCountry.digits}-digit mobile number for ${selectedCountry.name}.` });
       return;
     }
     if (!email) {
-      setError("Enter your email address to receive the password setup link.");
+      setFieldError({ field: "email", message: "Enter your email address to receive the password setup link." });
       return;
     }
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError("Enter a valid email address.");
+      setFieldError({ field: "email", message: "Enter a valid email address." });
       return;
     }
 
@@ -96,12 +113,13 @@ export default function SignupForm() {
       });
       router.push("/signup/success");
     } catch (err) {
-      if (err instanceof SignupApiError && err.fieldErrors.mobile) {
-        setMobileError(err.fieldErrors.mobile);
-        setError("");
+      if (err instanceof SignupApiError) {
+        const field = fieldOrder.find((key) => err.fieldErrors[key]);
+        const message = field && err.fieldErrors[field];
+        if (field && message) setFieldError({ field, message });
+        else setError(err.message);
       } else {
-        const message = err instanceof Error ? err.message : "Something went wrong. Please try again.";
-        setError(message);
+        setError("We couldn’t confirm your registration. Check your inbox for the setup email before resubmitting, or contact support.");
       }
     } finally {
       setLoading(false);
@@ -109,15 +127,17 @@ export default function SignupForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form ref={formElement} onSubmit={handleSubmit} className="space-y-6">
       <div>
         <label className={labelClass} htmlFor="workshopName">Workshop name <span className="text-red-600">*</span></label>
-        <input id="workshopName" name="workshopName" className={fieldClass} placeholder="Example Auto Care" autoComplete="organization" maxLength={150} minLength={2} value={form.workshopName} onChange={(e) => setField("workshopName", e.target.value)} required />
+        <input {...fieldFeedback("workshopName")} id="workshopName" name="workshopName" className={fieldClass} placeholder="Example Auto Care" autoComplete="organization" maxLength={150} minLength={2} value={form.workshopName} onChange={(e) => setField("workshopName", e.target.value)} required />
+        {renderFieldError("workshopName")}
       </div>
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
         <div>
           <label className={labelClass} htmlFor="ownerName">Owner name <span className="text-red-600">*</span></label>
-          <input id="ownerName" name="ownerName" className={fieldClass} placeholder="Full name" autoComplete="name" maxLength={120} minLength={2} value={form.ownerName} onChange={(e) => setField("ownerName", e.target.value)} required />
+          <input {...fieldFeedback("ownerName")} id="ownerName" name="ownerName" className={fieldClass} placeholder="Full name" autoComplete="name" maxLength={120} minLength={2} value={form.ownerName} onChange={(e) => setField("ownerName", e.target.value)} required />
+          {renderFieldError("ownerName")}
         </div>
         <div>
           <label className={labelClass} htmlFor="mobile">Mobile number <span className="text-red-600">*</span></label>
@@ -126,12 +146,13 @@ export default function SignupForm() {
               id="countryCode"
               name="countryCode"
               aria-label="Country calling code"
+              autoComplete="tel-country-code"
               value={form.countryCode}
               onChange={(e) => {
                 // The national number must be entered again when changing country:
                 // a number from the previous country may have a different length.
                 setForm((current) => ({ ...current, countryCode: e.target.value, mobile: "" }));
-                setMobileError("");
+                if (fieldError?.field === "mobile") setFieldError(null);
                 setError("");
               }}
               className="signup-input signup-country font-semibold"
@@ -141,12 +162,10 @@ export default function SignupForm() {
               ))}
             </select>
             <input
-              ref={mobileInput}
+              {...fieldFeedback("mobile")}
               id="mobile"
               name="mobile"
-              className={phoneFieldClass + (mobileError ? " !border-red-500 focus:!border-red-600" : "")}
-              aria-invalid={Boolean(mobileError)}
-              aria-describedby={mobileError ? "signup-mobile-error" : undefined}
+              className={phoneFieldClass}
               placeholder={`${selectedCountry.digits}-digit number`}
               type="tel"
               inputMode="numeric"
@@ -158,18 +177,15 @@ export default function SignupForm() {
               required
             />
           </div>
-          {mobileError ? (
-            <p id="signup-mobile-error" role="alert" className="mt-2 text-[12px] font-medium leading-relaxed text-red-600">
-              {mobileError}
-            </p>
-          ) : null}
+          {renderFieldError("mobile")}
         </div>
       </div>
       <div>
         <label className={labelClass} htmlFor="email">Email address <span className="text-red-600">*</span></label>
-        <input id="email" name="email" className={fieldClass} placeholder="owner@workshop.com" type="email" autoComplete="email" maxLength={254} value={form.email} onChange={(e) => setField("email", e.target.value)} required />
+        <input {...fieldFeedback("email")} id="email" name="email" className={fieldClass} placeholder="owner@workshop.com" type="email" autoComplete="email" maxLength={254} value={form.email} onChange={(e) => setField("email", e.target.value)} required />
+        {renderFieldError("email")}
       </div>
-      {error ? <div id="signup-error" role="alert" aria-live="assertive" className="signup-error">{error}</div> : null}
+      {error ? <div ref={feedback} tabIndex={-1} id="signup-error" role="alert" className="signup-error">{error}</div> : null}
       <button type="submit" disabled={loading} aria-describedby={error ? "signup-error" : undefined} className="button-primary focus-ring flex w-full !text-[16px] disabled:cursor-not-allowed disabled:opacity-60">
         {loading ? "Creating your workshop…" : "Create workshop account"}
       </button>

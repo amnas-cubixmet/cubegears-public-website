@@ -20,8 +20,7 @@ export function PublicHeader() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const firstLinkRef = useRef<HTMLAnchorElement>(null);
 
-  // Lock the background while the menu is open. Escape closes it; desktop
-  // resizing also closes it to avoid leaving the page locked.
+  // Release the scroll lock when resizing away from the menu's viewport range.
   useEffect(() => {
     if (!menuOpen) return;
 
@@ -35,7 +34,7 @@ export function PublicHeader() {
       }
     };
     const onResize = () => {
-      if (window.innerWidth >= 1280) setMenuOpen(false);
+      if (window.innerWidth < 768 || window.innerWidth >= 1280) setMenuOpen(false);
     };
     const onPopState = () => setMenuOpen(false);
 

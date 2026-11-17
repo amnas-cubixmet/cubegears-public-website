@@ -14,7 +14,7 @@ export default function SignupPage() {
   return (
     <>
       <PublicHeader />
-      <main id="main-content" className="signup-stage min-h-[calc(100svh-76px)]">
+      <main id="main-content" className="signup-stage min-h-svh md:min-h-[calc(100svh-76px)]">
         <section className="page-shell mx-auto max-w-[830px] py-6 sm:py-12 lg:py-16">
           <div className="signup-card min-w-0">
             <div className="flex flex-wrap items-center justify-between gap-3">

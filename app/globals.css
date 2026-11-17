@@ -220,7 +220,10 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
 .signup-input::placeholder { color: #999ca1; }
 .signup-label { display: block; color: #303237; font-size: 13px; font-weight: 750; }
 .signup-error { color: #a0121f; background: #fff1f2; border: 1px solid #f4b5bc; border-radius: 7px; padding: 13px 16px; font-size: 13px; line-height: 1.6; }
-.signup-country { width: 124px; min-width: 105px; padding-inline: 10px; flex: none; }
+.signup-field-error { margin: 8px 0 0; color: #a0121f; font-size: 13px; line-height: 1.5; }
+.signup-input[aria-invalid="true"] { border-color: #c12736; }
+.signup-error:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.signup-country { width: max-content; max-width: 100%; padding-inline: 10px; flex: none; font-size: 13px; }
 .signup-country option { color: #17283d; }
 
 /* Subtle motion. No automatic scrolling or parallax effects. */
@@ -273,11 +276,12 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
   .site-header-action-short { display: inline; }
 }
 @media (max-width: 480px) {
+  .signup-phone-row { flex-direction: column; }
+  .signup-phone-row .signup-input { width: 100%; flex: none; font-size: 16px; }
   .marketing-cta { padding: 30px 24px; }
   .responsive-actions { flex-direction: column; align-items: stretch; }
   .responsive-actions > a { width: 100%; }
   .signup-card { padding: 26px 21px; }
-  .signup-country { width: 104px; min-width: 100px; }
   .photo-content { padding: 24px; }
   .brand-name { font-size: 19px; }
   .button-primary, .button-secondary { min-height: 48px; }
@@ -307,7 +311,6 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
 @media (max-width: 640px) {
   .page-shell { width: min(1260px, calc(100% - 28px)); }
   .signup-card { padding: 24px 18px; border-radius: 14px; }
-  .signup-country { width: 104px; min-width: 100px; }
   .signup-input { min-width: 0; }
   .marketing-hero .page-shell, .section-pad .page-shell { min-width: 0; }
   .photo-frame { max-width: 100%; }

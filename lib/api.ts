@@ -13,6 +13,28 @@ type SignupResponse = {
   [key: string]: unknown;
 };
 
+const signupFieldKeys = {
+  workshop_name: "workshopName",
+  owner_name: "ownerName",
+  mobile: "mobile",
+  email: "email",
+} as const;
+
+export type SignupField = (typeof signupFieldKeys)[keyof typeof signupFieldKeys];
+type SignupFieldErrors = Partial<Record<SignupField, string>>;
+
+function signupFieldErrors(data: unknown): SignupFieldErrors {
+  if (!data || typeof data !== "object" || Array.isArray(data)) return {};
+  const fields = data as Record<string, unknown>;
+  const errors: SignupFieldErrors = {};
+  for (const [key, field] of Object.entries(signupFieldKeys)) {
+    const value = fields[key];
+    const message = Array.isArray(value) ? value[0] : value;
+    if (typeof message === "string" && message.trim()) errors[field] = message;
+  }
+  return errors;
+}
+
 function getApiErrorMessage(data: unknown, status: number): string {
   if (!data || typeof data !== "object" || Array.isArray(data)) {
     return `Registration failed (HTTP ${status}). Please try again or contact support.`;
@@ -53,9 +75,9 @@ function getApiErrorMessage(data: unknown, status: number): string {
 // Preserve safe Django field errors so signup can highlight the relevant
 // input rather than showing a generic failure at the bottom of the form.
 export class SignupApiError extends Error {
-  readonly fieldErrors: { mobile?: string };
+  readonly fieldErrors: SignupFieldErrors;
 
-  constructor(message: string, fieldErrors: { mobile?: string } = {}) {
+  constructor(message: string, fieldErrors: SignupFieldErrors = {}) {
     super(message);
     this.name = "SignupApiError";
     this.fieldErrors = fieldErrors;
@@ -78,15 +100,7 @@ export async function createWorkshopAccount(
 
   if (!response.ok) {
     const message = getApiErrorMessage(data, response.status);
-    const mobile = data && typeof data === "object" && !Array.isArray(data)
-      ? (data as Record<string, unknown>).mobile
-      : null;
-    const mobileError = typeof mobile === "string"
-      ? mobile
-      : Array.isArray(mobile) && typeof mobile[0] === "string"
-        ? mobile[0]
-        : undefined;
-    throw new SignupApiError(message, mobileError ? { mobile: mobileError } : {});
+    throw new SignupApiError(message, signupFieldErrors(data));
   }
 
   return data;

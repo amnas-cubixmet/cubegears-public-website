@@ -59,8 +59,29 @@ export function PublicHeader() {
   return (
     <header className="site-header">
       <div className="site-header-row page-shell flex items-center justify-between gap-3 lg:gap-5">
-        <div className="site-header-brand shrink-0">
-          <Brand onNavigate={closeMenu} />
+        <div className="flex min-w-0 items-center gap-1 max-md:flex-1">
+          <button
+            ref={menuButtonRef}
+            type="button"
+            className="focus-ring inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-[#252729] transition hover:bg-blue-50 xl:hidden"
+            aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            {menuOpen ? (
+              <svg aria-hidden="true" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M18 6 6 18M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg aria-hidden="true" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <path d="M4 7h16M4 12h16M4 17h16" />
+              </svg>
+            )}
+          </button>
+          <div className="site-header-brand shrink-0">
+            <Brand onNavigate={closeMenu} />
+          </div>
         </div>
 
         <nav aria-label="Primary navigation" className="hidden min-w-0 items-center justify-center gap-0.5 xl:flex">
@@ -91,25 +112,6 @@ export function PublicHeader() {
               <span className="site-header-action-short">Start</span>
             </Link>
           )}
-          <button
-            ref={menuButtonRef}
-            type="button"
-            className="focus-ring inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-[#252729] transition hover:bg-blue-50 xl:hidden"
-            aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-navigation"
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            {menuOpen ? (
-              <svg aria-hidden="true" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <path d="M18 6 6 18M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg aria-hidden="true" width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <path d="M4 7h16M4 12h16M4 17h16" />
-              </svg>
-            )}
-          </button>
         </div>
       </div>
 

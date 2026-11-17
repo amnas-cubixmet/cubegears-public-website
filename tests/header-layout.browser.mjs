@@ -24,7 +24,8 @@ async function checkHeader(page, path, width) {
   await page.evaluate(() => document.fonts.ready);
   const header = page.locator('.site-header');
   const message = `${path} at ${width}px`;
-  const action = header.getByRole('link', { name: path === '/signup' ? 'Sign in' : 'Get started', exact: true });
+  const actionLabel = path === '/signup' ? 'Sign in' : width < 300 ? 'Start' : 'Get started';
+  const action = header.getByRole('link', { name: actionLabel, exact: true });
   assert.ok(await action.isVisible(), message);
   const layout = await header.evaluate(root => {
     const brand = root.querySelector('.brand-link');
@@ -37,11 +38,11 @@ async function checkHeader(page, path, width) {
         const rect = link.getBoundingClientRect();
         return rect.left >= 0 && rect.right <= innerWidth;
       }),
-      brandFits: mark.scrollWidth <= mark.clientWidth + 1,
+      brandTextOverflow: Math.max(0, mark.scrollWidth - mark.clientWidth - 1),
       separate: brand.getBoundingClientRect().right <= controls.getBoundingClientRect().left,
     };
   });
-  assert.deepEqual(layout, { fullyInViewport: true, brandFits: true, separate: true }, message);
+  assert.deepEqual(layout, { fullyInViewport: true, brandTextOverflow: 0, separate: true }, message);
   const menu = header.getByRole('button', { name: 'Open navigation menu' });
   assert.equal(await menu.isVisible(), width < 1280, message);
   if (width >= 1280) assert.ok(await header.getByRole('navigation', { name: 'Primary navigation' }).isVisible(), message);

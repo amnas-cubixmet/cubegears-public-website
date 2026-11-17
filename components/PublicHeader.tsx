@@ -87,7 +87,8 @@ export function PublicHeader() {
             </a>
           ) : (
             <Link href="/signup" scroll className="button-primary site-header-action focus-ring">
-              Get started
+              <span className="site-header-action-label">Get started</span>
+              <span className="site-header-action-short">Start</span>
             </Link>
           )}
           <button

@@ -9,8 +9,8 @@ export default function SignupSuccessPage() {
   return (
     <>
       <PublicHeader />
-      <main id="main-content" className="min-h-[calc(100svh-76px)] bg-[#f5f8ff]">
-        <section className="page-shell grid min-h-[calc(100svh-76px)] place-items-center py-10 sm:py-16">
+      <main id="main-content" className="min-h-svh bg-[#f5f8ff] md:min-h-[calc(100svh-76px)]">
+        <section className="page-shell grid min-h-svh place-items-center py-10 sm:py-16 md:min-h-[calc(100svh-76px)]">
           <div className="marketing-card w-full max-w-2xl px-6 py-12 text-center sm:px-12 sm:py-16">
             <span className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-blue-50 text-4xl font-black text-[#2563eb]" aria-hidden="true">✓</span>
             <p className="eyebrow mt-8 justify-center">REGISTRATION SUBMITTED</p>

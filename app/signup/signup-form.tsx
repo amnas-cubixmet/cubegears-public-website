@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createWorkshopAccount, SignupApiError } from "@/lib/api";
 
@@ -40,7 +40,12 @@ export default function SignupForm() {
   const [error, setError] = useState("");
   const [mobileError, setMobileError] = useState("");
   const [loading, setLoading] = useState(false);
+  const mobileInput = useRef<HTMLInputElement>(null);
   const selectedCountry = countryCodes.find((country) => country.code === form.countryCode) ?? countryCodes[0];
+
+  useEffect(() => {
+    if (mobileError) mobileInput.current?.focus();
+  }, [mobileError]);
 
   function setField<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((current) => ({ ...current, [key]: value }));
@@ -116,7 +121,7 @@ export default function SignupForm() {
         </div>
         <div>
           <label className={labelClass} htmlFor="mobile">Mobile number <span className="text-red-600">*</span></label>
-          <div className="mt-2 flex min-w-0 gap-2">
+          <div className="signup-phone-row mt-2 flex min-w-0 gap-2">
             <select
               id="countryCode"
               name="countryCode"
@@ -129,13 +134,14 @@ export default function SignupForm() {
                 setMobileError("");
                 setError("");
               }}
-              className="signup-input signup-country text-[13px] font-semibold"
+              className="signup-input signup-country font-semibold"
             >
               {countryCodes.map((country) => (
                 <option key={country.code} value={country.code}>{country.code} {country.name}</option>
               ))}
             </select>
             <input
+              ref={mobileInput}
               id="mobile"
               name="mobile"
               className={phoneFieldClass + (mobileError ? " !border-red-500 focus:!border-red-600" : "")}

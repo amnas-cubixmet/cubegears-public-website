@@ -220,7 +220,7 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
 .signup-input::placeholder { color: #999ca1; }
 .signup-label { display: block; color: #303237; font-size: 13px; font-weight: 750; }
 .signup-error { color: #a0121f; background: #fff1f2; border: 1px solid #f4b5bc; border-radius: 7px; padding: 13px 16px; font-size: 13px; line-height: 1.6; }
-.signup-country { width: 124px; min-width: 105px; padding-inline: 10px; flex: none; }
+.signup-country { width: 124px; min-width: 105px; padding-inline: 10px; flex: none; font-size: 13px; }
 .signup-country option { color: #17283d; }
 
 /* Subtle motion. No automatic scrolling or parallax effects. */
@@ -262,6 +262,8 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
   .site-header-brand .brand-name { font-size: 17px; }
   .site-header-brand .brand-descriptor { display: none; }
   .button-primary.site-header-action { padding-inline: 8px; font-size: 12px; }
+  .signup-phone-row { flex-direction: column; }
+  .signup-phone-row .signup-input { width: 100%; flex: none; font-size: 16px; }
 }
 @media (max-width: 319px) {
   .site-header .site-header-row { width: calc(100% - 20px); gap: 6px; }

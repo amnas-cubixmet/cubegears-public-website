@@ -29,3 +29,8 @@ test('signup keeps the real backend error response and does not retry registrati
   assert.match(signupProxy, /cache: "no-store"/);
   assert.match(signupProxy, /Do not retry a POST/);
 });
+
+test('production signup only forwards applicant details to an HTTPS backend', () => {
+  assert.match(signupProxy, /url\.protocol === "https:"/);
+  assert.match(signupProxy, /process\.env\.NODE_ENV !== "production" && url\.protocol === "http:"/);
+});

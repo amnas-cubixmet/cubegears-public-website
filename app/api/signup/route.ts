@@ -21,7 +21,8 @@ function getBackendUrl(): string | null {
 
   try {
     const url = new URL(baseUrl + (endpoint.startsWith("/") ? endpoint : "/" + endpoint));
-    return ["http:", "https:"].includes(url.protocol) ? url.toString() : null;
+    if (url.protocol === "https:") return url.toString();
+    return process.env.NODE_ENV !== "production" && url.protocol === "http:" ? url.toString() : null;
   } catch {
     return null;
   }

@@ -58,8 +58,8 @@ export function PublicHeader() {
 
   return (
     <header className="site-header">
-      <div className="page-shell flex h-[76px] items-center justify-between gap-3 lg:gap-5">
-        <div className="shrink-0">
+      <div className="site-header-row page-shell flex items-center justify-between gap-3 lg:gap-5">
+        <div className="site-header-brand shrink-0">
           <Brand onNavigate={closeMenu} />
         </div>
 
@@ -77,17 +77,18 @@ export function PublicHeader() {
           ))}
         </nav>
 
-        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+        <div className="site-header-actions flex shrink-0 items-center gap-2 sm:gap-3">
           {isSignupPage ? (
             <a
               href="https://app.cubixgear.tech/login"
-              className="button-primary site-signin-button focus-ring"
+              className="button-primary site-header-action site-signin-button focus-ring"
             >
               Sign in
             </a>
           ) : (
-            <Link href="/signup" scroll className="button-primary focus-ring hidden sm:inline-flex">
-              Get started
+            <Link href="/signup" scroll className="button-primary site-header-action focus-ring">
+              <span className="site-header-action-label">Get started</span>
+              <span className="site-header-action-short">Start</span>
             </Link>
           )}
           <button
@@ -116,7 +117,7 @@ export function PublicHeader() {
         <button
           type="button"
           aria-label="Close navigation menu"
-          className="fixed inset-x-0 top-[76px] z-40 h-[calc(100dvh-76px)] bg-slate-950/35 backdrop-blur-[2px] xl:hidden"
+          className="site-mobile-backdrop fixed inset-x-0 z-40 bg-slate-950/35 backdrop-blur-[2px] xl:hidden"
           onClick={closeMenu}
         />
       )}
@@ -143,7 +144,7 @@ export function PublicHeader() {
               href="/signup"
               scroll
               onClick={closeMenu}
-              className="button-primary focus-ring mt-3 inline-flex w-full justify-center sm:hidden"
+              className="button-primary focus-ring mt-3 w-full justify-center"
             >
               Create workshop account
             </Link>

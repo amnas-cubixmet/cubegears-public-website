@@ -8,6 +8,7 @@
   --brand: #2563eb;
   --brand-dark: #1748b3;
   --navy: #17283d;
+  --site-header-height: 76px;
 }
 @theme inline {
   --color-background: var(--background);
@@ -18,7 +19,7 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: auto; scroll-padding-top: 90px; overflow-x: clip; }
 body {
-  margin: 0; min-width: 320px; min-height: 100vh; overflow-x: clip;
+  margin: 0; min-height: 100vh; overflow-x: clip;
   background: var(--background); color: var(--foreground);
   font: 16px/1.5 var(--font-geist-sans), Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
@@ -37,6 +38,8 @@ a { color: inherit; text-decoration: none; }
   background: rgba(255, 255, 255, .96); border-bottom: 0;
   backdrop-filter: blur(18px);
 }
+.site-header-row { height: var(--site-header-height); }
+.site-header-action { white-space: nowrap; }
 .brand-link { display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0; border-radius: 8px; }
 .brand-image { display: block; width: 40px; height: 40px; flex: 0 0 40px; object-fit: contain; }
 @media (max-width: 420px) {
@@ -52,11 +55,16 @@ a { color: inherit; text-decoration: none; }
 .site-nav-link:hover, .site-nav-link-active { color: #2155bd; background: #f0f5ff; border-radius: 8px; }
 .site-mobile-panel {
   position: absolute; top: 100%; left: 0; right: 0; z-index: 60;
-  max-height: calc(100dvh - 76px); overflow-y: auto; overscroll-behavior: contain;
+  max-height: calc(100dvh - var(--site-header-height)); overflow-y: auto; overscroll-behavior: contain;
   border: 0;
   background: #fff; box-shadow: 0 22px 42px rgba(0,0,0,.12);
   animation: mobile-nav-in .18s ease-out both;
 }
+.site-mobile-backdrop {
+  top: var(--site-header-height);
+  height: calc(100dvh - var(--site-header-height));
+}
+.site-content-fill { min-height: calc(100svh - var(--site-header-height)); }
 @keyframes mobile-nav-in { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
 
 /* Buttons and focus */
@@ -70,18 +78,9 @@ a { color: inherit; text-decoration: none; }
 }
 .button-primary:hover { background: #174bbd; transform: translateY(-2px); box-shadow: 0 15px 28px rgba(37,99,235,.23); }
 .button-primary:active { transform: translateY(0); }
-/* Keep the signup header's Sign in action compact on small screens. */
 .button-primary.site-signin-button {
   min-height: 44px;
   padding: 10px 16px;
-  white-space: nowrap;
-}
-@media (max-width: 420px) {
-  .button-primary.site-signin-button {
-    min-height: 40px;
-    padding: 9px 12px;
-    font-size: 13px;
-  }
 }
 .button-secondary {
   display: inline-flex; align-items: center; justify-content: center;
@@ -241,12 +240,27 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
   .page-shell { width: min(1260px, calc(100% - 76px)); }
 }
 @media (max-width: 767px) {
+  :root { --site-header-height: 64px; }
+  .site-header-row { gap: 8px; }
+  .site-header-brand { flex: 1 1 auto; min-width: 0; }
+  .site-header-brand .brand-link { max-width: 100%; gap: 7px; }
+  .site-header-brand .brand-image { width: 32px; height: 32px; flex-basis: 32px; }
+  .site-header-brand .brand-name { display: block; min-width: 0; font-size: 18px; white-space: nowrap; }
+  .site-header-brand .brand-descriptor { display: block; font-size: 7px; }
+  .site-header-actions { gap: 4px; }
+  .button-primary.site-header-action { min-height: 44px; padding: 8px 10px; font-size: 13px; box-shadow: none; }
   .section-pad { padding-block: 58px; }
   .stat-strip { grid-template-columns: 1fr; }
   .stat-strip > * { padding: 16px 20px; border: 0; }
   .stat-strip > *:last-child { border-bottom: 0; }
   .photo-caption { font-size: 9px; }
   .page-hero-centered .photo-frame { max-height: 320px; }
+}
+@media (max-width: 359px) {
+  .site-header-brand .brand-image { width: 28px; height: 28px; flex-basis: 28px; }
+  .site-header-brand .brand-name { font-size: 17px; }
+  .site-header-brand .brand-descriptor { display: none; }
+  .button-primary.site-header-action { padding-inline: 8px; font-size: 12px; }
 }
 @media (max-width: 480px) {
   .marketing-cta { padding: 30px 24px; }
@@ -281,7 +295,6 @@ select:focus-visible, textarea:focus-visible, summary:focus-visible {
 .signup-card { max-width: 100%; box-shadow: 0 22px 60px rgba(25,65,130,.075); }
 .photo-frame { box-shadow: 0 16px 45px rgba(20,44,82,.12); }
 @media (max-width: 640px) {
-  .site-header .page-shell { gap: 8px; }
   .page-shell { width: min(1260px, calc(100% - 28px)); }
   .signup-card { padding: 24px 18px; border-radius: 14px; }
   .signup-country { width: 104px; min-width: 100px; }
